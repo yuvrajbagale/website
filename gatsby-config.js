@@ -1,10 +1,11 @@
 const { DateTime } = require('luxon')
-require('dotenv').config()
+const algoliaQueries = require('./src/utilities/algolia')
 
+require('dotenv').config()
 
 function buildDate(argument) {
   dt = DateTime.fromObject({ zone: 'America/New_York' })
-  meridiem = (dt.hour > 11) ? 'p' : 'a'
+  meridiem = dt.hour > 11 ? 'p' : 'a'
   return `${dt.toFormat('h:mm')} ${meridiem}m ET`
 }
 
@@ -40,6 +41,15 @@ module.exports = {
     'gatsby-plugin-eslint',
     `gatsby-plugin-remove-trailing-slashes`,
     'gatsby-plugin-netlify',
+    {
+      resolve: `gatsby-plugin-algolia`,
+      options: {
+        appId: process.env.GATSBY_ALGOLIA_APP_ID,
+        apiKey: process.env.ALGOLIA_ADMIN_KEY,
+        queries: algoliaQueries,
+        chunkSize: 10000,
+      },
+    },
     {
       resolve: 'gatsby-source-covid-tracking-api',
       options: {
