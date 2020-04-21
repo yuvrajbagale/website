@@ -20,19 +20,37 @@ const ContentPage = ({ data }) => (
 
     <SyncInfobox />
 
-    <Table>
+    <Table useTableSaw>
       <caption>US Daily Cumulative Totals - 4 pm ET</caption>
       <thead>
         <tr>
-          <th scope="col">Date</th>
-          <th scope="col">States Tracked</th>
-          <th scope="col">New Tests</th>
-          <th scope="col">Positive</th>
-          <th scope="col">Negative</th>
-          <th scope="col">Pos + Neg</th>
-          <th scope="col">Pending</th>
-          <th scope="col">Deaths</th>
-          <th scope="col">Total Tests</th>
+          <th scope="col" data-tablesaw-priority="persist">
+            Date
+          </th>
+          <th scope="col" data-tablesaw-priority="0">
+            States Tracked
+          </th>
+          <th scope="col" data-tablesaw-priority="1">
+            New Tests
+          </th>
+          <th scope="col" data-tablesaw-priority="1">
+            Positive
+          </th>
+          <th scope="col" data-tablesaw-priority="1">
+            Negative
+          </th>
+          <th scope="col" data-tablesaw-priority="2">
+            Pos + Neg
+          </th>
+          <th scope="col" data-tablesaw-priority="2">
+            Pending
+          </th>
+          <th scope="col" data-tablesaw-priority="2">
+            Deaths
+          </th>
+          <th scope="col" data-tablesaw-priority="2">
+            Total Tests
+          </th>
         </tr>
       </thead>
       <tbody>
