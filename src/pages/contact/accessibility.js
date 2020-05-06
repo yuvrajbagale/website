@@ -1,6 +1,6 @@
 import React from 'react'
-import Layout from '../../components/layout'
-import ContactForm from '../../components/common/contact-form'
+import Layout from '~components/layout'
+import ContactForm from '~components/common/contact-form'
 
 const ContactAccessibilityPage = () => (
   <Layout title="Contact us &mdash; Accessibility">

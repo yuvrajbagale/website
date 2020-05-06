@@ -153,7 +153,7 @@ const gatsbyConfig = {
           '~templates': 'src/templates',
           '~utilities': 'src/utilities',
         },
-        extensions: ['js', 'scss', 'svg', 'png'],
+        extensions: ['js', 'scss'],
       },
     },
     {

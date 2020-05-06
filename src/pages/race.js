@@ -1,12 +1,12 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import Layout from '../components/layout'
-import pressListStyle from '../components/common/press-list.module.scss'
+import Layout from '~components/layout'
+import pressListStyle from '~components/common/press-list.module.scss'
 import {
   PublicationTitle,
   PublicationSource,
-} from '../components/common/publication'
-import DetailText from '../components/common/detail-text'
+} from '~components/common/publication'
+import DetailText from '~components/common/detail-text'
 import margueriteCaseyLogo from '../images/race-project/marguerite-casey-foundation.png'
 import raceProjectStyle from './race.module.scss'
 

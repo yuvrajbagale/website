@@ -1,7 +1,7 @@
 import React from 'react'
 import marked from 'marked'
 import { Link } from 'gatsby'
-import slug from '../../../utilities/slug'
+import slug from '~utilities/slug'
 import { UnstyledList } from '../../common/lists'
 import StateGrade from '../state/state-grade'
 import SummaryTable from '../../common/summary-table'

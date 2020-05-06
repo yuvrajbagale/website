@@ -1,5 +1,5 @@
-@import '../../scss/colors.module.scss';
-@import '../../scss/breakpoints.module.scss';
+@import '~scss/colors.module.scss';
+@import '~scss/breakpoints.module.scss';
 
 .circles {
   background: $color-plum-550;
@@ -185,7 +185,7 @@
 
   .container {
     &.show-background {
-      background-image: url(../../images/hero-bg.svg);
+      background-image: url(~images/hero-bg.svg);
       background-size: auto 300%;
     }
   }

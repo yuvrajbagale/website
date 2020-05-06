@@ -15,7 +15,7 @@ import {
   querySearch,
   getSanitizedSlug,
   partitionHitsByRelevance,
-} from '../../context/search-context'
+} from '~context/search-context'
 import searchAutocompleteStyles from './search-autocomplete.module.scss'
 
 export default () => {

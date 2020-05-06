@@ -7,7 +7,7 @@ import Footer from './footer'
 import SEO from '../utils/seo'
 import Container from '../common/container'
 import SkipNavigation from '../utils/skip-navigation'
-import '../../scss/global.scss'
+import '~scss/global.scss'
 
 const Layout = ({
   title,

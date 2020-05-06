@@ -3,11 +3,11 @@ import { graphql } from 'gatsby'
 import { BLOCKS } from '@contentful/rich-text-types'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
-import AuthorFooter from '../components/pages/blog/author-footer'
-import Categories from '../components/pages/blog/categories'
-import ImageContentBlock from '../components/pages/blog/image-content-block'
-import Layout from '../components/layout'
-import Lede from '../components/pages/blog/blog-lede'
+import AuthorFooter from '~components/pages/blog/author-footer'
+import Categories from '~components/pages/blog/categories'
+import ImageContentBlock from '~components/pages/blog/image-content-block'
+import Layout from '~components/layout'
+import Lede from '~components/pages/blog/blog-lede'
 
 import blogPostStyles from './blog-post.module.scss'
 

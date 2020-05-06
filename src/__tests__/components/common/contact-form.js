@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import ContactFrom from '../../../components/common/contact-form'
+import ContactFrom from '~components/common/contact-form'
 
 describe('Components : Common: Contact form', () => {
   it('renders correctly', () => {
