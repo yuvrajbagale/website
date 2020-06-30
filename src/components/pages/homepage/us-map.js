@@ -57,7 +57,6 @@ const State = ({ feature, path, setHover, isHovered = false }) => {
 
 const Label = ({ feature, path }) => {
   const centroid = path.centroid(feature)
-  // const bounds = path.bounds(feature)
   const levelClass =
     usMapStyles[`text${limit(feature.properties.covidData.positiveIncrease)}`]
   return (

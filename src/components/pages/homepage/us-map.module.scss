@@ -24,11 +24,11 @@
 
 .label {
   @include type-size(300);
-  font-weight: bold;
   fill: white;
   cursor: pointer;
   &.state-label {
-    @include type-size(500);
+    font-weight: bold;
+    @include type-size(400);
   }
 
   &.text-500 {
