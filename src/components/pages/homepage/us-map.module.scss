@@ -1,0 +1,45 @@
+.state {
+  fill: $color-honey-200;
+  stroke: $color-plum-700;
+  stroke-width: 3px;
+  cursor: pointer;
+  &.hovered {
+    stroke: black;
+    stroke-width: 5px;
+    z-index: 100;
+  }
+  &.level-500 {
+    fill: $color-honey-300;
+  }
+  &.level-1000 {
+    fill: $color-honey-500;
+  }
+  &.level-2000 {
+    fill: $color-honey-600;
+  }
+  &.level-5000 {
+    fill: $color-honey-800;
+  }
+}
+
+.label {
+  @include type-size(300);
+  font-weight: bold;
+  fill: white;
+  cursor: pointer;
+  &.state-label {
+    @include type-size(500);
+  }
+
+  &.text-500 {
+    fill: black;
+  }
+
+  &.text-1000 {
+    fill: black;
+  }
+
+  &.text-2000 {
+    fill: black;
+  }
+}
