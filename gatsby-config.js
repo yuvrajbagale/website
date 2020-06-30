@@ -19,6 +19,8 @@ const gatsbyConfig = {
       process.env.BRANCH === 'master',
     contentfulSpace: process.env.CONTENTFUL_SPACE,
     hiddenApiTags: ['Racial data tracker', 'Internal Endpoints'],
+    stateChartDateRange: 90,
+    stateChartPerCapMeasure: 1000000,
   },
   plugins: [
     'gatsby-plugin-sitemap',
@@ -187,6 +189,37 @@ const gatsbyConfig = {
         environment: 'preview',
       },
     },
+
+    {
+      resolve: 'gatsby-transformer-covid-census',
+      options: {
+        stateType: 'CovidStateDaily',
+        usType: 'CovidUsDaily',
+        stateInfoType: 'CovidStateInfo',
+        fields: [
+          'hospitalizedCumulative',
+          'hospitalizedCurrently',
+          'hospitalizedIncrease',
+          'death',
+          'deathIncrease',
+          'inIcuCumulative',
+          'inIcuCurrently',
+          'negativeIncrease',
+          'negativeRegularScore',
+          'onVentilatorCumulative',
+          'onVentilatorCurrently',
+          'positiveCasesViral',
+          'positiveIncrease',
+          'positiveTestsViral',
+          'totalTestResults',
+          'totalTestResultsIncrease',
+          'totalTestsViral',
+          'negativeTestsViral',
+          'positive',
+          'negative',
+        ],
+      },
+    },
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
@@ -255,13 +288,16 @@ const gatsbyConfig = {
           {
             serialize: ({ query: { site, allContentfulBlogPost } }) => {
               return allContentfulBlogPost.nodes.map(node => {
-                return Object.assign({}, {
-                  title: node.title,
-                  description: node.lede.lede,
-                  date: node.publishDate,
-                  url: `${site.siteMetadata.siteUrl}/blog/${node.slug}`,
-                  guid: `${site.siteMetadata.siteUrl}/blog/${node.slug}`,
-                })
+                return Object.assign(
+                  {},
+                  {
+                    title: node.title,
+                    description: node.lede.lede,
+                    date: node.publishDate,
+                    url: `${site.siteMetadata.siteUrl}/blog/${node.slug}`,
+                    guid: `${site.siteMetadata.siteUrl}/blog/${node.slug}`,
+                  },
+                )
               })
             },
             query: `
@@ -281,9 +317,9 @@ const gatsbyConfig = {
                 }
               }
             `,
-            output: "/rss.xml",
-            title: "The COVID Tracking Project - RSS Feed",
-            match: "^/blog/",
+            output: '/rss.xml',
+            title: 'The COVID Tracking Project - RSS Feed',
+            match: '^/blog/',
           },
         ],
       },
