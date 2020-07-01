@@ -111,7 +111,7 @@ const metrics = {
         title: 'Over 8% positive',
         className: usMapStyles.levelHigh,
         find: states =>
-          states.filter(({ percentPositive }) => percentPositive > 8),
+          states.filter(({ percentPositive }) => percentPositive > 0.08),
       },
       {
         type: 'medium',
@@ -120,7 +120,7 @@ const metrics = {
         find: states =>
           states.filter(
             ({ percentPositive }) =>
-              percentPositive >= 5 && percentPositive < 8,
+              percentPositive >= 0.05 && percentPositive < 0.08,
           ),
       },
       {
@@ -128,7 +128,7 @@ const metrics = {
         className: usMapStyles.levelLow,
         title: 'Below 5% positive',
         find: states =>
-          states.filter(({ percentPositive }) => percentPositive < 5),
+          states.filter(({ percentPositive }) => percentPositive < 0.05),
       },
     ],
   },
@@ -192,7 +192,7 @@ const Label = ({ feature, setActive, metric, path }) => {
   )
 }
 
-const StateListStatistics = ({ title, states, className }) => {
+const StateListStatistics = ({ title, states, className, metric }) => {
   if (!states || !states.length) {
     return null
   }
@@ -211,7 +211,7 @@ const StateListStatistics = ({ title, states, className }) => {
               </div>
               <span className="a11y-only">{state.name}</span>
               <div className={usMapStyles.number}>
-                {state.sevenDayPositive.toLocaleString()}
+                {metrics[metric].format(state)}
               </div>
             </Link>
           </div>
@@ -228,6 +228,7 @@ const StateList = ({ states, metric }) => (
         key={title}
         title={title}
         level={type}
+        metric={metric}
         className={className}
         states={find(states)}
       />
