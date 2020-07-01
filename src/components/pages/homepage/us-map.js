@@ -16,19 +16,129 @@ const margin = {
   bottom: 0,
 }
 
-const limit = number => {
-  if (number <= 1000) {
-    return 'Low'
-  }
-  if (number <= 2000) {
-    return 'Medium'
-  }
-  return 'High'
+const metrics = {
+  sevenDayPositive: {
+    getLimitClass: ({ sevenDayPositive }) => {
+      if (sevenDayPositive <= 1000) {
+        return 'Low'
+      }
+      if (sevenDayPositive <= 2000) {
+        return 'Medium'
+      }
+      return 'High'
+    },
+    format: ({ sevenDayPositive }) => sevenDayPositive.toLocaleString(),
+    levels: [
+      {
+        type: 'high',
+        title: 'Over 2,000 cases',
+        className: usMapStyles.levelHigh,
+        find: states =>
+          states.filter(({ sevenDayPositive }) => sevenDayPositive > 2000),
+      },
+      {
+        type: 'medium',
+        title: '1,000-2,000 cases',
+        className: usMapStyles.levelMedium,
+        find: states =>
+          states.filter(
+            ({ sevenDayPositive }) =>
+              sevenDayPositive >= 1000 && sevenDayPositive < 2000,
+          ),
+      },
+      {
+        type: 'low',
+        className: usMapStyles.levelLow,
+        title: 'Below 1,000 cases',
+        find: states =>
+          states.filter(({ sevenDayPositive }) => sevenDayPositive < 1000),
+      },
+    ],
+  },
+  testsPer100thousand: {
+    getLimitClass: ({ testsPer100thousand }) => {
+      if (testsPer100thousand < 100) {
+        return 'Low'
+      }
+      if (testsPer100thousand < 150) {
+        return 'Medium'
+      }
+      return 'High'
+    },
+    format: ({ testsPer100thousand }) => testsPer100thousand.toLocaleString(),
+    levels: [
+      {
+        type: 'high',
+        title: 'Over 150 tests',
+        className: usMapStyles.levelHigh,
+        find: states =>
+          states.filter(({ testsPer100thousand }) => testsPer100thousand > 150),
+      },
+      {
+        type: 'medium',
+        title: '100-150 tests',
+        className: usMapStyles.levelMedium,
+        find: states =>
+          states.filter(
+            ({ testsPer100thousand }) =>
+              testsPer100thousand >= 100 && testsPer100thousand < 150,
+          ),
+      },
+      {
+        type: 'low',
+        className: usMapStyles.levelLow,
+        title: 'Below 100 tests',
+        find: states =>
+          states.filter(({ testsPer100thousand }) => testsPer100thousand < 100),
+      },
+    ],
+  },
+  percentPositive: {
+    getLimitClass: ({ percentPositive }) => {
+      if (percentPositive < 0.05) {
+        return 'Low'
+      }
+      if (percentPositive < 0.08) {
+        return 'Medium'
+      }
+      return 'High'
+    },
+    format: ({ percentPositive }) =>
+      `${Math.round(percentPositive * 1000) / 10}%`,
+    levels: [
+      {
+        type: 'high',
+        title: 'Over 8% positive',
+        className: usMapStyles.levelHigh,
+        find: states =>
+          states.filter(({ percentPositive }) => percentPositive > 8),
+      },
+      {
+        type: 'medium',
+        title: '5% - 8% positive',
+        className: usMapStyles.levelMedium,
+        find: states =>
+          states.filter(
+            ({ percentPositive }) =>
+              percentPositive >= 5 && percentPositive < 8,
+          ),
+      },
+      {
+        type: 'low',
+        className: usMapStyles.levelLow,
+        title: 'Below 5% positive',
+        find: states =>
+          states.filter(({ percentPositive }) => percentPositive < 5),
+      },
+    ],
+  },
 }
 
-const State = ({ feature, path, setActive, isActive = false }) => {
+const State = ({ feature, path, metric, setActive, isActive = false }) => {
   const levelClass =
-    usMapStyles[`level${limit(feature.properties.stateInfo.sevenDayPositive)}`]
+    usMapStyles[
+      `level${metrics[metric].getLimitClass(feature.properties.stateInfo)}`
+    ]
 
   return (
     <path
@@ -50,10 +160,12 @@ const State = ({ feature, path, setActive, isActive = false }) => {
   )
 }
 
-const Label = ({ feature, setActive, path }) => {
+const Label = ({ feature, setActive, metric, path }) => {
   const centroid = path.centroid(feature)
   const levelClass =
-    usMapStyles[`text${limit(feature.properties.stateInfo.sevenDayPositive)}`]
+    usMapStyles[
+      `text${metrics[metric].getLimitClass(feature.properties.stateInfo)}`
+    ]
   return (
     <>
       <text
@@ -74,13 +186,13 @@ const Label = ({ feature, setActive, path }) => {
         className={classnames(usMapStyles.label, levelClass)}
         onClick={() => setActive(feature)}
       >
-        {feature.properties.stateInfo.sevenDayPositive.toLocaleString()}
+        {metrics[metric].format(feature.properties.stateInfo)}
       </text>
     </>
   )
 }
 
-const StateListStatistics = ({ title, states, level }) => {
+const StateListStatistics = ({ title, states, className }) => {
   if (!states || !states.length) {
     return null
   }
@@ -90,10 +202,8 @@ const StateListStatistics = ({ title, states, level }) => {
       <div className={usMapStyles.list}>
         {states.map(state => (
           <div
-            className={classnames(
-              usMapStyles.state,
-              usMapStyles[`level${level}`],
-            )}
+            className={classnames(usMapStyles.state, className)}
+            key={`stat-${state.state}`}
           >
             <Link to={state.link}>
               <div className={usMapStyles.name} aria-hidden>
@@ -111,45 +221,22 @@ const StateListStatistics = ({ title, states, level }) => {
   )
 }
 
-const StateList = ({ states }) => (
+const StateList = ({ states, metric }) => (
   <div className={usMapStyles.stateList}>
-    <StateListStatistics
-      title="Over 2,000 cases"
-      level="High"
-      states={states.filter(state => state.sevenDayPositive > 2000)}
-    />
-    <StateListStatistics
-      title="1,000-2,000 cases"
-      level="Medium"
-      states={states.filter(
-        state =>
-          state.sevenDayPositive >= 1000 && state.sevenDayPositive < 2000,
-      )}
-    />
-    <StateListStatistics
-      title="Below 1,000 cases"
-      level="Low"
-      states={states.filter(state => state.sevenDayPositive < 1000)}
-    />
+    {metrics[metric].levels.map(({ type, title, className, find }) => (
+      <StateListStatistics
+        key={title}
+        title={title}
+        level={type}
+        className={className}
+        states={find(states)}
+      />
+    ))}
   </div>
 )
 
 const getAverage = (history, field) =>
-  Math.round(
-    history.reduce((total, item) => total + item[field], 0) / history.length,
-  )
-
-const Tooltip = ({ feature, path }) => {
-  const bounds = path.bounds(feature)
-
-  return (
-    <svg x={bounds[1][0]} y={bounds[1][1]}>
-      <rect x={0} y={0} className={usMapStyles.tooltip}>
-        <text>{feature.properties.stateInfo.name}</text>
-      </rect>
-    </svg>
-  )
-}
+  history.reduce((total, item) => total + item[field], 0) / history.length
 
 const MapLegendItem = ({ title, className }) => (
   <div className={usMapStyles.item}>
@@ -158,15 +245,15 @@ const MapLegendItem = ({ title, className }) => (
   </div>
 )
 
-const MapLegend = () => (
+const MapLegend = ({ metric }) => (
   <div className={usMapStyles.legend}>
-    <MapLegendItem title="Below 1,000 cases" className={usMapStyles.low} />
-    <MapLegendItem title="1,000 to 2,000" className={usMapStyles.medium} />
-    <MapLegendItem title="Above 2,000 cases" className={usMapStyles.high} />
+    {metrics[metric].levels.map(({ title, type }) => (
+      <MapLegendItem title={title} key={title} className={usMapStyles[type]} />
+    ))}
   </div>
 )
 
-const Map = () => {
+const Map = ({ metric }) => {
   const [activeState, setActiveState] = useState(false)
   const path = useMemo(() => {
     const projection = geoMercator().fitExtent(
@@ -191,8 +278,10 @@ const Map = () => {
         <g>
           {stateShapes.features.map(feature => (
             <State
+              key={`state-${feature.properties.state}`}
               feature={feature}
               path={path}
+              metric={metric}
               setActive={stateFeature => setActiveState(stateFeature)}
             />
           ))}
@@ -200,8 +289,10 @@ const Map = () => {
         <g>
           {stateShapes.features.map(feature => (
             <Label
+              key={`label-${feature.properties.state}`}
               feature={feature}
               path={path}
+              metric={metric}
               setActive={stateFeature => setActiveState(stateFeature)}
             />
           ))}
@@ -212,23 +303,26 @@ const Map = () => {
             <State
               feature={activeState}
               path={path}
+              metric={metric}
               setActive={() => setActiveState(false)}
               isActive
             />
             <Label
               feature={activeState}
               path={path}
+              metric={metric}
               setActive={() => setActiveState(false)}
             />
-            <Tooltip feature={activeState} path={path} />
           </g>
         )}
       </svg>
-      <MapLegend />
+      <MapLegend metric={metric} />
     </>
   )
 }
+
 export default () => {
+  const [metric, setMetric] = useState('sevenDayPositive')
   const data = useStaticQuery(graphql`
     {
       allCovidStateInfo {
@@ -242,6 +336,10 @@ export default () => {
           nodes {
             state
             positiveIncrease
+            negativeIncrease
+            childPopulation {
+              population
+            }
           }
         }
       }
@@ -253,10 +351,32 @@ export default () => {
     const { nodes } = data.allCovidStateDaily.group.find(
       group => group.nodes[0].state === state.state,
     )
+    const stateInfo = nodes.map(node => {
+      node.posNegIncrease = node.positiveIncrease + node.negativeIncrease
+      node.percentPositive = node.positiveIncrease / node.posNegIncrease
+      return node
+    })
 
     states.push({
       ...state,
-      sevenDayPositive: getAverage(nodes, 'positiveIncrease'),
+      sevenDayPositive: Math.round(getAverage(stateInfo, 'positiveIncrease')),
+      testsPer100thousand: Math.round(
+        (getAverage(stateInfo, 'posNegIncrease') /
+          stateInfo[0].childPopulation.population) *
+          100000,
+      ),
+      percentPositive:
+        stateInfo.reduce(
+          (positive, posNegState) => posNegState.positiveIncrease + positive,
+          0,
+        ) /
+        stateInfo.reduce(
+          (posNeg, posNegState) =>
+            posNegState.positiveIncrease +
+            posNegState.negativeIncrease +
+            posNeg,
+          0,
+        ),
       link: `/data/state/${slugify(state.name, {
         strict: true,
         lower: true,
@@ -272,12 +392,39 @@ export default () => {
 
   return (
     <div className={usMapStyles.mapWrapper}>
+      <button
+        type="button"
+        onClick={event => {
+          event.preventDefault()
+          setMetric('sevenDayPositive')
+        }}
+      >
+        Cases
+      </button>
+      <button
+        type="button"
+        onClick={event => {
+          event.preventDefault()
+          setMetric('testsPer100thousand')
+        }}
+      >
+        Tests per 100k
+      </button>
+      <button
+        type="button"
+        onClick={event => {
+          event.preventDefault()
+          setMetric('percentPositive')
+        }}
+      >
+        Percent positive
+      </button>
       <h2 className={usMapStyles.mapHeading}>
         New COVID-19 cases by state/territory
-        <div>Seven-day rolling average</div>
+        <div>{metric}</div>
       </h2>
-      <Map />
-      <StateList states={states} />
+      <Map metric={metric} />
+      <StateList states={states} metric={metric} />
       <p>
         We compile data from official, public state and territory data. This
         data shows a strong day-of-the-week effect because fewer tests are
