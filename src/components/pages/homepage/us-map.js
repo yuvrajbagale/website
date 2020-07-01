@@ -196,7 +196,6 @@ export default () => {
       state => state.state === feature.properties.state,
     )
   })
-  console.log(stateShapes)
 
   const path = useMemo(() => {
     const projection = geoMercator().fitExtent(
