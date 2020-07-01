@@ -1,12 +1,10 @@
-$color-level-500: $color-plum-600;
-$color-level-1000: $color-plum-300;
-$color-level-2000: $color-plum-100;
-$color-level-5000: $color-honey-300;
+$color-level-low: $color-plum-600;
+$color-level-medium: white;
+$color-level-high: $color-honey-400;
 
-$color-text-500: white;
-$color-text-1000: black;
-$color-text-2000: black;
-$color-text-5000: black;
+$color-text-low: white;
+$color-text-medium: black;
+$color-text-high: black;
 
 .map-wrapper {
   position: relative;
@@ -26,8 +24,18 @@ $color-text-5000: black;
     @include type-size(500);
     div {
       @include type-size(400);
+      @include margin(16, top);
+      font-weight: normal;
     }
   }
+}
+
+.tooltip {
+  fill: $color-plum-200;
+  stroke: $color-plum-700;
+  stroke-width: 3px;
+  width: 150px;
+  height: 100px;
 }
 
 .state {
@@ -35,22 +43,19 @@ $color-text-5000: black;
   stroke: $color-plum-700;
   stroke-width: 3px;
   cursor: pointer;
-  &.hovered {
+  &.active {
     stroke: black;
     stroke-width: 5px;
     z-index: 100;
   }
-  &.level-500 {
-    fill: $color-level-500;
+  &.level-low {
+    fill: $color-level-low;
   }
-  &.level-1000 {
-    fill: $color-level-1000;
+  &.level-medium {
+    fill: $color-level-medium;
   }
-  &.level-2000 {
-    fill: $color-level-2000;
-  }
-  &.level-5000 {
-    fill: $color-level-5000;
+  &.level-high {
+    fill: $color-level-high;
   }
 }
 
@@ -63,20 +68,16 @@ $color-text-5000: black;
     @include type-size(400);
   }
 
-  &.text-500 {
-    fill: $color-text-500;
+  &.text-low {
+    fill: $color-text-low;
   }
 
-  &.text-1000 {
-    fill: $color-text-1000;
+  &.text-medium {
+    fill: $color-text-medium;
   }
 
-  &.text-2000 {
-    fill: $color-text-2000;
-  }
-
-  &.text-5000 {
-    fill: $color-text-5000;
+  &.text-high {
+    fill: $color-text-high;
   }
 }
 
@@ -98,32 +99,52 @@ $color-text-5000: black;
         text-decoration: none;
         display: block;
       }
-      &.level-500 {
-        background: $color-level-500;
+      &.level-low {
+        background: $color-level-low;
         a {
-          color: $color-text-500;
+          color: $color-text-low;
         }
       }
-      &.level-1000 {
-        background: $color-level-1000;
+      &.level-medium {
+        background: $color-level-medium;
         a {
-          color: $color-text-1000;
+          color: $color-text-medium;
         }
       }
-      &.level-2000 {
-        background: $color-level-2000;
+      &.level-high {
+        background: $color-level-high;
         a {
-          color: $color-text-2000;
-        }
-      }
-      &.level-5000 {
-        background: $color-level-5000;
-        a {
-          color: $color-text-5000;
+          color: $color-text-high;
         }
       }
       .name {
         @include type-size(400);
+      }
+    }
+  }
+}
+
+.legend {
+  display: none;
+  width: 60%;
+  margin: spacer(32) auto;
+  @media (min-width: $viewport-lg) {
+    @include row();
+  }
+  .item {
+    @include col(4 6 4, 0 0 0, 0 0 4);
+    text-align: center;
+    .bar {
+      height: spacer(8);
+      @include margin(8, bottom);
+      &.low {
+        background: $color-level-low;
+      }
+      &.medium {
+        background: $color-level-medium;
+      }
+      &.high {
+        background: $color-level-high;
       }
     }
   }
