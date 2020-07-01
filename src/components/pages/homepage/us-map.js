@@ -7,10 +7,10 @@ import classnames from 'classnames'
 import stateShapes from '~data/visualization/states-hexgrid.json'
 import usMapStyles from './us-map.module.scss'
 
-const mapWidth = 1140
-const mapHeight = 700
+const mapWidth = 1000
+const mapHeight = 600
 const margin = {
-  top: -20,
+  top: 0,
   left: 0,
   right: 50,
   bottom: 0,
@@ -89,6 +89,71 @@ const Label = ({ feature, path }) => {
   )
 }
 
+const StateListStatistics = ({ title, states, level }) => {
+  if (!states || !states.length) {
+    return null
+  }
+  return (
+    <>
+      <h3>{title}</h3>
+      <div className={usMapStyles.list}>
+        {states.map(state => (
+          <div
+            className={classnames(
+              usMapStyles.state,
+              usMapStyles[`level${level}`],
+            )}
+          >
+            <Link
+              to={`/data/state/${slugify(state.name, {
+                strict: true,
+                lower: true,
+              })}`}
+            >
+              <div className={usMapStyles.name}>{state.state}</div>
+              <span className="a11y-only">{state.name}</span>
+              <div className={usMapStyles.number}>
+                {state.positiveIncrease.toLocaleString()}
+              </div>
+            </Link>
+          </div>
+        ))}
+      </div>
+    </>
+  )
+}
+
+const StateList = ({ states }) => (
+  <div className={usMapStyles.stateList}>
+    <StateListStatistics
+      title="Over 5,000 cases"
+      level={5000}
+      states={states.filter(state => state.positiveIncrease > 5000)}
+    />
+    <StateListStatistics
+      title="2,000-5,000 cases"
+      level={2000}
+      states={states.filter(
+        state =>
+          state.positiveIncrease >= 2000 && state.positiveIncrease < 5000,
+      )}
+    />
+    <StateListStatistics
+      title="1,000-2,000 cases"
+      level={1000}
+      states={states.filter(
+        state =>
+          state.positiveIncrease >= 1000 && state.positiveIncrease < 2000,
+      )}
+    />
+    <StateListStatistics
+      title="Under 1,000 cases"
+      level={500}
+      states={states.filter(state => state.positiveIncrease < 1000)}
+    />
+  </div>
+)
+
 export default () => {
   const [hoveredState, setHoveredState] = useState(false)
   const data = useStaticQuery(graphql`
@@ -126,6 +191,14 @@ export default () => {
     feature.properties.covidData = stateData
   })
 
+  const states = []
+  data.allCovidStateInfo.nodes.forEach(state => {
+    states.push({
+      ...state,
+      ...data.allCovidState.nodes.find(item => item.state === state.state),
+    })
+  })
+
   const path = useMemo(() => {
     const projection = geoMercator().fitExtent(
       [
@@ -138,9 +211,13 @@ export default () => {
   }, [mapWidth, mapHeight])
 
   return (
-    <>
+    <div className={usMapStyles.mapWrapper}>
+      <h2 className={usMapStyles.mapHeading}>
+        New cases of COVID-19 reported by states, 7-day rolling average
+      </h2>
       <svg
-        width="100%"
+        className={usMapStyles.map}
+        width={mapWidth}
         height={mapHeight}
         onMouseLeave={() => setHoveredState(false)}
         aria-hidden
@@ -172,28 +249,7 @@ export default () => {
           </g>
         )}
       </svg>
-      <table className="a11y-only">
-        <caption>States by case increases in the past day</caption>
-
-        <thead>
-          <tr>
-            <th>State</th>
-            <th>Increase</th>
-          </tr>
-        </thead>
-        <tbody>
-          {stateShapes.features.map(feature => (
-            <tr>
-              <td>
-                <Link to={feature.properties.link}>
-                  {feature.properties.stateName}
-                </Link>
-              </td>
-              <td>{feature.properties.covidData.positiveIncrease}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
+      <StateList states={states} />
+    </div>
   )
 }

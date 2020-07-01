@@ -1,3 +1,22 @@
+.map-wrapper {
+  position: relative;
+  .map {
+    display: none;
+    @media (min-width: $viewport-lg) {
+      display: block;
+      margin: 0 auto;
+    }
+  }
+  .map-heading {
+    position: relative;
+    @include col(4 4 8);
+    @media (min-width: $viewport-lg) {
+      position: absolute;
+    }
+    @include type-size(500);
+  }
+}
+
 .state {
   fill: $color-honey-200;
   stroke: $color-plum-700;
@@ -41,5 +60,53 @@
 
   &.text-2000 {
     fill: black;
+  }
+}
+
+.state-list {
+  @include margin(32, top bottom);
+  @media (min-width: $viewport-lg) {
+    @include a11y-only();
+  }
+  .list {
+    .state {
+      width: 80px;
+      height: 80px;
+      display: inline-block;
+      @include margin(16, right bottom);
+      @include padding(8);
+      text-align: center;
+      a {
+        color: white;
+        text-decoration: none;
+        display: block;
+      }
+      &.level-500 {
+        background: $color-plum-600;
+      }
+      &.level-1000 {
+        background: $color-plum-400;
+        a {
+          color: black;
+        }
+      }
+      &.level-2000 {
+        background: $color-plum-100;
+        a {
+          color: black;
+        }
+      }
+      &.level-5000 {
+        background: $color-honey-300;
+        a {
+          color: black;
+        }
+      }
+      .name {
+        @include type-size(400);
+      }
+      .number {
+      }
+    }
   }
 }
