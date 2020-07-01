@@ -66,21 +66,21 @@ const metrics = {
     },
     getLimitClass: ({ testsPer100thousand }) => {
       if (testsPer100thousand < 100) {
-        return 'Low'
+        return 'High'
       }
       if (testsPer100thousand < 150) {
         return 'Medium'
       }
-      return 'High'
+      return 'Low'
     },
     format: ({ testsPer100thousand }) => testsPer100thousand.toLocaleString(),
     levels: [
       {
         type: 'low',
+        title: 'Over 150 tests',
         className: usMapStyles.levelLow,
-        title: 'Below 100 tests',
         find: states =>
-          states.filter(({ testsPer100thousand }) => testsPer100thousand < 100),
+          states.filter(({ testsPer100thousand }) => testsPer100thousand > 150),
       },
       {
         type: 'medium',
@@ -94,10 +94,10 @@ const metrics = {
       },
       {
         type: 'high',
-        title: 'Over 150 tests',
         className: usMapStyles.levelHigh,
+        title: 'Below 100 tests',
         find: states =>
-          states.filter(({ testsPer100thousand }) => testsPer100thousand > 150),
+          states.filter(({ testsPer100thousand }) => testsPer100thousand < 100),
       },
     ],
   },
@@ -107,40 +107,40 @@ const metrics = {
       subTitle: 'Percentage of positive tests in the past seven days',
     },
     getLimitClass: ({ percentPositive }) => {
-      if (percentPositive < 0.05) {
+      if (percentPositive < 0.03) {
         return 'Low'
       }
-      if (percentPositive < 0.08) {
+      if (percentPositive < 0.1) {
         return 'Medium'
       }
       return 'High'
     },
     format: ({ percentPositive }) =>
-      `${Math.round(percentPositive * 1000) / 10}%`,
+      percentPositive ? `${Math.round(percentPositive * 1000) / 10}%` : '0%',
     levels: [
       {
         type: 'low',
         className: usMapStyles.levelLow,
-        title: 'Below 5% positive',
+        title: 'Below 3% positive',
         find: states =>
-          states.filter(({ percentPositive }) => percentPositive < 0.05),
+          states.filter(({ percentPositive }) => percentPositive < 0.03),
       },
       {
         type: 'medium',
-        title: '5% - 8% positive',
+        title: '3% - 10% positive',
         className: usMapStyles.levelMedium,
         find: states =>
           states.filter(
             ({ percentPositive }) =>
-              percentPositive >= 0.05 && percentPositive < 0.08,
+              percentPositive >= 0.03 && percentPositive < 0.1,
           ),
       },
       {
         type: 'high',
-        title: 'Over 8% positive',
+        title: 'Over 10% positive',
         className: usMapStyles.levelHigh,
         find: states =>
-          states.filter(({ percentPositive }) => percentPositive > 0.08),
+          states.filter(({ percentPositive }) => percentPositive > 0.1),
       },
     ],
   },
