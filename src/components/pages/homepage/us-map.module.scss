@@ -24,6 +24,9 @@ $color-text-5000: black;
       position: absolute;
     }
     @include type-size(500);
+    div {
+      @include type-size(400);
+    }
   }
 }
 
@@ -121,8 +124,6 @@ $color-text-5000: black;
       }
       .name {
         @include type-size(400);
-      }
-      .number {
       }
     }
   }

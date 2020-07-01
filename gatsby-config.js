@@ -188,7 +188,6 @@ const gatsbyConfig = {
         accessToken: process.env.CONTENTFUL_TOKEN,
       },
     },
-
     {
       resolve: 'gatsby-transformer-covid-census',
       options: {
@@ -204,7 +203,6 @@ const gatsbyConfig = {
           'inIcuCumulative',
           'inIcuCurrently',
           'negativeIncrease',
-          'negativeRegularScore',
           'onVentilatorCumulative',
           'onVentilatorCurrently',
           'positiveCasesViral',

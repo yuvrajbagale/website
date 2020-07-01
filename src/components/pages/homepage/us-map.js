@@ -31,7 +31,7 @@ const limit = number => {
 
 const State = ({ feature, path, setHover, isHovered = false }) => {
   const levelClass =
-    usMapStyles[`level${limit(feature.properties.covidData.positiveIncrease)}`]
+    usMapStyles[`level${limit(feature.properties.stateInfo.sevenDayPositive)}`]
 
   return (
     <path
@@ -58,7 +58,7 @@ const State = ({ feature, path, setHover, isHovered = false }) => {
 const Label = ({ feature, path }) => {
   const centroid = path.centroid(feature)
   const levelClass =
-    usMapStyles[`text${limit(feature.properties.covidData.positiveIncrease)}`]
+    usMapStyles[`text${limit(feature.properties.stateInfo.sevenDayPositive)}`]
   return (
     <>
       <text
@@ -70,20 +70,20 @@ const Label = ({ feature, path }) => {
           levelClass,
         )}
         onClick={() => {
-          navigate(feature.properties.link)
+          navigate(feature.properties.stateInfo.link)
         }}
       >
-        {feature.properties.state}
+        {feature.properties.stateInfo.state}
       </text>
       <text
         x={centroid[0] - 20}
         y={centroid[1] + 15}
         className={classnames(usMapStyles.label, levelClass)}
         onClick={() => {
-          navigate(feature.properties.link)
+          navigate(feature.properties.stateInfo.link)
         }}
       >
-        {feature.properties.covidData.positiveIncrease.toLocaleString()}
+        {feature.properties.stateInfo.sevenDayPositive.toLocaleString()}
       </text>
     </>
   )
@@ -104,16 +104,11 @@ const StateListStatistics = ({ title, states, level }) => {
               usMapStyles[`level${level}`],
             )}
           >
-            <Link
-              to={`/data/state/${slugify(state.name, {
-                strict: true,
-                lower: true,
-              })}`}
-            >
+            <Link to={state.link}>
               <div className={usMapStyles.name}>{state.state}</div>
               <span className="a11y-only">{state.name}</span>
               <div className={usMapStyles.number}>
-                {state.positiveIncrease.toLocaleString()}
+                {state.sevenDayPositive.toLocaleString()}
               </div>
             </Link>
           </div>
@@ -128,14 +123,14 @@ const StateList = ({ states }) => (
     <StateListStatistics
       title="Over 5,000 cases"
       level={5000}
-      states={states.filter(state => state.positiveIncrease > 5000)}
+      states={states.filter(state => state.sevenDayPositive > 5000)}
     />
     <StateListStatistics
       title="2,000-5,000 cases"
       level={2000}
       states={states.filter(
         state =>
-          state.positiveIncrease >= 2000 && state.positiveIncrease < 5000,
+          state.sevenDayPositive >= 2000 && state.sevenDayPositive < 5000,
       )}
     />
     <StateListStatistics
@@ -143,61 +138,65 @@ const StateList = ({ states }) => (
       level={1000}
       states={states.filter(
         state =>
-          state.positiveIncrease >= 1000 && state.positiveIncrease < 2000,
+          state.sevenDayPositive >= 1000 && state.sevenDayPositive < 2000,
       )}
     />
     <StateListStatistics
       title="Under 1,000 cases"
       level={500}
-      states={states.filter(state => state.positiveIncrease < 1000)}
+      states={states.filter(state => state.sevenDayPositive < 1000)}
     />
   </div>
 )
+
+const getAverage = (history, field) =>
+  Math.round(
+    history.reduce((total, item) => total + item[field], 0) / history.length,
+  )
 
 export default () => {
   const [hoveredState, setHoveredState] = useState(false)
   const data = useStaticQuery(graphql`
     {
-      allCovidState {
-        nodes {
-          positiveIncrease
-          state
-        }
-      }
       allCovidStateInfo {
         nodes {
           name
           state
         }
       }
+      allCovidStateDaily(sort: { fields: [state, date], order: [ASC, DESC] }) {
+        group(field: state, limit: 7) {
+          nodes {
+            state
+            positiveIncrease
+          }
+        }
+      }
     }
   `)
 
-  stateShapes.features.forEach(feature => {
-    const stateInfo = data.allCovidStateInfo.nodes.find(
-      state => state.state === feature.properties.state,
-    )
-    const stateData = data.allCovidState.nodes.find(
-      state => state.state === feature.properties.state,
-    )
-    if (!stateInfo || !stateData) {
-      return
-    }
-    feature.properties.stateName = stateInfo.name
-    feature.properties.link = `/data/state/${slugify(stateInfo.name, {
-      strict: true,
-      lower: true,
-    })}`
-    feature.properties.covidData = stateData
-  })
-
   const states = []
   data.allCovidStateInfo.nodes.forEach(state => {
+    const { nodes } = data.allCovidStateDaily.group.find(
+      group => group.nodes[0].state === state.state,
+    )
+
     states.push({
       ...state,
-      ...data.allCovidState.nodes.find(item => item.state === state.state),
+      sevenDayPositive: getAverage(nodes, 'positiveIncrease'),
+      link: `/data/state/${slugify(state.name, {
+        strict: true,
+        lower: true,
+      })}`,
     })
   })
+
+  stateShapes.features.forEach(feature => {
+    feature.properties.stateInfo = states.find(
+      state => state.state === feature.properties.state,
+    )
+  })
+  console.log(stateShapes)
 
   const path = useMemo(() => {
     const projection = geoMercator().fitExtent(
@@ -213,7 +212,8 @@ export default () => {
   return (
     <div className={usMapStyles.mapWrapper}>
       <h2 className={usMapStyles.mapHeading}>
-        New cases of COVID-19 reported by states, 7-day rolling average
+        New COVID-19 cases by state/territory
+        <div>Seven-day rolling average</div>
       </h2>
       <svg
         className={usMapStyles.map}
