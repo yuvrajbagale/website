@@ -34,11 +34,11 @@ const metrics = {
     format: ({ sevenDayPositive }) => sevenDayPositive.toLocaleString(),
     levels: [
       {
-        type: 'high',
-        title: 'Over 2,000 cases',
-        className: usMapStyles.levelHigh,
+        type: 'low',
+        className: usMapStyles.levelLow,
+        title: 'Below 1,000 cases',
         find: states =>
-          states.filter(({ sevenDayPositive }) => sevenDayPositive > 2000),
+          states.filter(({ sevenDayPositive }) => sevenDayPositive < 1000),
       },
       {
         type: 'medium',
@@ -51,11 +51,11 @@ const metrics = {
           ),
       },
       {
-        type: 'low',
-        className: usMapStyles.levelLow,
-        title: 'Below 1,000 cases',
+        type: 'high',
+        title: 'Over 2,000 cases',
+        className: usMapStyles.levelHigh,
         find: states =>
-          states.filter(({ sevenDayPositive }) => sevenDayPositive < 1000),
+          states.filter(({ sevenDayPositive }) => sevenDayPositive > 2000),
       },
     ],
   },
@@ -76,11 +76,11 @@ const metrics = {
     format: ({ testsPer100thousand }) => testsPer100thousand.toLocaleString(),
     levels: [
       {
-        type: 'high',
-        title: 'Over 150 tests',
-        className: usMapStyles.levelHigh,
+        type: 'low',
+        className: usMapStyles.levelLow,
+        title: 'Below 100 tests',
         find: states =>
-          states.filter(({ testsPer100thousand }) => testsPer100thousand > 150),
+          states.filter(({ testsPer100thousand }) => testsPer100thousand < 100),
       },
       {
         type: 'medium',
@@ -93,11 +93,11 @@ const metrics = {
           ),
       },
       {
-        type: 'low',
-        className: usMapStyles.levelLow,
-        title: 'Below 100 tests',
+        type: 'high',
+        title: 'Over 150 tests',
+        className: usMapStyles.levelHigh,
         find: states =>
-          states.filter(({ testsPer100thousand }) => testsPer100thousand < 100),
+          states.filter(({ testsPer100thousand }) => testsPer100thousand > 150),
       },
     ],
   },
@@ -119,11 +119,11 @@ const metrics = {
       `${Math.round(percentPositive * 1000) / 10}%`,
     levels: [
       {
-        type: 'high',
-        title: 'Over 8% positive',
-        className: usMapStyles.levelHigh,
+        type: 'low',
+        className: usMapStyles.levelLow,
+        title: 'Below 5% positive',
         find: states =>
-          states.filter(({ percentPositive }) => percentPositive > 0.08),
+          states.filter(({ percentPositive }) => percentPositive < 0.05),
       },
       {
         type: 'medium',
@@ -136,11 +136,11 @@ const metrics = {
           ),
       },
       {
-        type: 'low',
-        className: usMapStyles.levelLow,
-        title: 'Below 5% positive',
+        type: 'high',
+        title: 'Over 8% positive',
+        className: usMapStyles.levelHigh,
         find: states =>
-          states.filter(({ percentPositive }) => percentPositive < 0.05),
+          states.filter(({ percentPositive }) => percentPositive > 0.08),
       },
     ],
   },
@@ -235,16 +235,18 @@ const StateListStatistics = ({ title, states, className, metric }) => {
 
 const StateList = ({ states, metric }) => (
   <div className={usMapStyles.stateList}>
-    {metrics[metric].levels.map(({ type, title, className, find }) => (
-      <StateListStatistics
-        key={title}
-        title={title}
-        level={type}
-        metric={metric}
-        className={className}
-        states={find(states)}
-      />
-    ))}
+    {[...metrics[metric].levels]
+      .reverse()
+      .map(({ type, title, className, find }) => (
+        <StateListStatistics
+          key={title}
+          title={title}
+          level={type}
+          metric={metric}
+          className={className}
+          states={find(states)}
+        />
+      ))}
   </div>
 )
 
