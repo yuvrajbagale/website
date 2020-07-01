@@ -11,8 +11,8 @@ const mapWidth = 1000
 const mapHeight = 600
 const margin = {
   top: 0,
-  left: 0,
-  right: 50,
+  left: 5,
+  right: 5,
   bottom: 0,
 }
 
