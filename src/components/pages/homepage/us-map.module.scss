@@ -1,3 +1,13 @@
+$color-level-500: $color-plum-600;
+$color-level-1000: $color-plum-300;
+$color-level-2000: $color-plum-100;
+$color-level-5000: $color-honey-300;
+
+$color-text-500: white;
+$color-text-1000: black;
+$color-text-2000: black;
+$color-text-5000: black;
+
 .map-wrapper {
   position: relative;
   .map {
@@ -28,22 +38,22 @@
     z-index: 100;
   }
   &.level-500 {
-    fill: $color-honey-300;
+    fill: $color-level-500;
   }
   &.level-1000 {
-    fill: $color-honey-500;
+    fill: $color-level-1000;
   }
   &.level-2000 {
-    fill: $color-honey-600;
+    fill: $color-level-2000;
   }
   &.level-5000 {
-    fill: $color-honey-800;
+    fill: $color-level-5000;
   }
 }
 
 .label {
   @include type-size(300);
-  fill: white;
+  fill: black;
   cursor: pointer;
   &.state-label {
     font-weight: bold;
@@ -51,15 +61,19 @@
   }
 
   &.text-500 {
-    fill: black;
+    fill: $color-text-500;
   }
 
   &.text-1000 {
-    fill: black;
+    fill: $color-text-1000;
   }
 
   &.text-2000 {
-    fill: black;
+    fill: $color-text-2000;
+  }
+
+  &.text-5000 {
+    fill: $color-text-5000;
   }
 }
 
@@ -82,24 +96,27 @@
         display: block;
       }
       &.level-500 {
-        background: $color-plum-600;
+        background: $color-level-500;
+        a {
+          color: $color-text-500;
+        }
       }
       &.level-1000 {
-        background: $color-plum-400;
+        background: $color-level-1000;
         a {
-          color: black;
+          color: $color-text-1000;
         }
       }
       &.level-2000 {
-        background: $color-plum-100;
+        background: $color-level-2000;
         a {
-          color: black;
+          color: $color-text-2000;
         }
       }
       &.level-5000 {
-        background: $color-honey-300;
+        background: $color-level-5000;
         a {
-          color: black;
+          color: $color-text-5000;
         }
       }
       .name {
