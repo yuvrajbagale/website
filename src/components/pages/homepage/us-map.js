@@ -250,6 +250,14 @@ export default () => {
         )}
       </svg>
       <StateList states={states} />
+      <p>
+        We compile data from official, public state and territory data. This
+        data shows a strong day-of-the-week effect because fewer tests are
+        completed on weekends in most areas, so we calculate a seven-day rolling
+        average of the new case numbers. You can see all the{' '}
+        <Link to="/data">national and state data</Link> or{' '}
+        <Link to="/data/download">download CSVs</Link>.
+      </p>
     </div>
   )
 }
