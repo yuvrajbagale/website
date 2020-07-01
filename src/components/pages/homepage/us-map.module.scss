@@ -8,6 +8,9 @@ $color-text-high: black;
 
 .map-wrapper {
   position: relative;
+  h1 {
+    text-align: center;
+  }
   .map {
     display: none;
     @media (min-width: $viewport-lg) {
@@ -146,6 +149,33 @@ $color-text-high: black;
       &.high {
         background: $color-level-high;
       }
+    }
+  }
+}
+
+.toggle {
+  margin-top: spacer(16);
+  margin-bottom: spacer(32);
+  text-align: center;
+  button {
+    border: 0;
+    @include type-size(300);
+    @include padding(8);
+    cursor: pointer;
+    background: $color-plum-800;
+    color: white;
+    border-radius: none;
+    &:first-child {
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+    &:last-child {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+    &[data-active] {
+      color: black;
+      background: white;
     }
   }
 }

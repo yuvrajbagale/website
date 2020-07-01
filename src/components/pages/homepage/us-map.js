@@ -18,6 +18,10 @@ const margin = {
 
 const metrics = {
   sevenDayPositive: {
+    title: {
+      main: 'New COVID-19 cases by state/territory',
+      subTitle: 'Seven-day rolling average',
+    },
     getLimitClass: ({ sevenDayPositive }) => {
       if (sevenDayPositive <= 1000) {
         return 'Low'
@@ -56,6 +60,10 @@ const metrics = {
     ],
   },
   testsPer100thousand: {
+    title: {
+      main: 'Tests for COVID-19 by state/territory',
+      subTitle: 'Seven-day rolling average of tests per 100k people',
+    },
     getLimitClass: ({ testsPer100thousand }) => {
       if (testsPer100thousand < 100) {
         return 'Low'
@@ -94,6 +102,10 @@ const metrics = {
     ],
   },
   percentPositive: {
+    title: {
+      main: 'Percent positive tests for COVID-19 by state/territory',
+      subTitle: 'Percentage of positive tests in the past seven days',
+    },
     getLimitClass: ({ percentPositive }) => {
       if (percentPositive < 0.05) {
         return 'Low'
@@ -393,36 +405,43 @@ export default () => {
 
   return (
     <div className={usMapStyles.mapWrapper}>
-      <button
-        type="button"
-        onClick={event => {
-          event.preventDefault()
-          setMetric('sevenDayPositive')
-        }}
-      >
-        Cases
-      </button>
-      <button
-        type="button"
-        onClick={event => {
-          event.preventDefault()
-          setMetric('testsPer100thousand')
-        }}
-      >
-        Tests per 100k
-      </button>
-      <button
-        type="button"
-        onClick={event => {
-          event.preventDefault()
-          setMetric('percentPositive')
-        }}
-      >
-        Percent positive
-      </button>
-      <h2 className={usMapStyles.mapHeading}>
-        New COVID-19 cases by state/territory
-        <div>{metric}</div>
+      <h1>COVID-19 in the US</h1>
+      <div className={usMapStyles.toggle}>
+        <button
+          type="button"
+          data-active={metric === 'sevenDayPositive' ? true : undefined}
+          onClick={event => {
+            event.preventDefault()
+            setMetric('sevenDayPositive')
+          }}
+        >
+          Cases
+        </button>
+        <button
+          type="button"
+          data-active={metric === 'testsPer100thousand' ? true : undefined}
+          onClick={event => {
+            event.preventDefault()
+            setMetric('testsPer100thousand')
+          }}
+        >
+          Tests
+        </button>
+        <button
+          type="button"
+          data-active={metric === 'percentPositive' ? true : undefined}
+          onClick={event => {
+            event.preventDefault()
+            setMetric('percentPositive')
+          }}
+        >
+          Percent positive
+        </button>
+      </div>
+
+      <h2 className={usMapStyles.mapHeading} aria-live="polite">
+        {metrics[metric].title.main}
+        <div>{metrics[metric].title.subTitle}</div>
       </h2>
       <Map metric={metric} />
       <StateList states={states} metric={metric} />
