@@ -18,7 +18,13 @@
         ]
       },
       "properties": {
-        "state": "ME"
+        "state": "ME",
+        "neighbors": {
+          "n": false,
+          "s": "NH",
+          "e": false,
+          "w": "NN"
+        }
       }
     },
     {
@@ -38,7 +44,13 @@
         ]
       },
       "properties": {
-        "state": "RI"
+        "state": "RI",
+        "neighbors": {
+          "n": "NH",
+          "s": "CT",
+          "e": false,
+          "w": "MA"
+        }
       }
     },
     {
@@ -58,7 +70,13 @@
         ]
       },
       "properties": {
-        "state": "VT"
+        "state": "VT",
+        "neighbors": {
+          "n": false,
+          "s": "MA",
+          "e": "NH",
+          "w": "NY"
+        }
       }
     },
     {
@@ -78,7 +96,13 @@
         ]
       },
       "properties": {
-        "state": "OK"
+        "state": "OK",
+        "neighbors": {
+          "n": "KS",
+          "s": "TX",
+          "e": "LA",
+          "w": "AZ"
+        }
       }
     },
     {
@@ -98,7 +122,13 @@
         ]
       },
       "properties": {
-        "state": "NC"
+        "state": "NC",
+        "neighbors": {
+          "n": "VA",
+          "s": "GA",
+          "e": "SC",
+          "w": "TN"
+        }
       }
     },
     {
@@ -118,7 +148,13 @@
         ]
       },
       "properties": {
-        "state": "VA"
+        "state": "VA",
+        "neighbors": {
+          "n": "PA",
+          "s": "SC",
+          "e": "MD",
+          "w": "WV"
+        }
       }
     },
     {
@@ -138,7 +174,13 @@
         ]
       },
       "properties": {
-        "state": "WV"
+        "state": "WV",
+        "neighbors": {
+          "n": "OH",
+          "s": "NC",
+          "e": "VA",
+          "w": "KY"
+        }
       }
     },
     {
@@ -158,7 +200,13 @@
         ]
       },
       "properties": {
-        "state": "CA"
+        "state": "CA",
+        "neighbors": {
+          "n": "NV",
+          "s": false,
+          "e": "UT",
+          "w": "GU"
+        }
       }
     },
     {
@@ -178,7 +226,13 @@
         ]
       },
       "properties": {
-        "state": "KS"
+        "state": "KS",
+        "neighbors": {
+          "n": "MO",
+          "s": "LA",
+          "e": "AR",
+          "w": "NM"
+        }
       }
     },
     {
@@ -198,7 +252,13 @@
         ]
       },
       "properties": {
-        "state": "KY"
+        "state": "KY",
+        "neighbors": {
+          "n": "IN",
+          "s": "TN",
+          "e": "MO",
+          "w": "WV"
+        }
       }
     },
     {
@@ -218,7 +278,13 @@
         ]
       },
       "properties": {
-        "state": "MD"
+        "state": "MD",
+        "neighbors": {
+          "n": "NJ",
+          "s": "DC",
+          "e": "DE",
+          "w": "VA"
+        }
       }
     },
     {
@@ -238,7 +304,13 @@
         ]
       },
       "properties": {
-        "state": "MO"
+        "state": "MO",
+        "neighbors": {
+          "n": "IL",
+          "s": "AR",
+          "e": "KY",
+          "w": "NE"
+        }
       }
     },
     {
@@ -258,7 +330,13 @@
         ]
       },
       "properties": {
-        "state": "NE"
+        "state": "NE",
+        "neighbors": {
+          "n": "IA",
+          "s": "KS",
+          "e": "MO",
+          "w": "CO"
+        }
       }
     },
     {
@@ -278,7 +356,13 @@
         ]
       },
       "properties": {
-        "state": "NM"
+        "state": "NM",
+        "neighbors": {
+          "n": "NE",
+          "s": "OK",
+          "e": "KS",
+          "w": "UT"
+        }
       }
     },
     {
@@ -298,7 +382,13 @@
         ]
       },
       "properties": {
-        "state": "SC"
+        "state": "SC",
+        "neighbors": {
+          "n": "MD",
+          "s": "GA",
+          "e": "NC",
+          "w": "DC"
+        }
       }
     },
     {
@@ -318,7 +408,13 @@
         ]
       },
       "properties": {
-        "state": "TN"
+        "state": "TN",
+        "neighbors": {
+          "n": "WV",
+          "s": "AL",
+          "e": "NC",
+          "w": "AR"
+        }
       }
     },
     {
@@ -338,7 +434,13 @@
         ]
       },
       "properties": {
-        "state": "IA"
+        "state": "IA",
+        "neighbors": {
+          "n": "WI",
+          "s": "MO",
+          "e": "IL",
+          "w": "SD"
+        }
       }
     },
     {
@@ -358,7 +460,13 @@
         ]
       },
       "properties": {
-        "state": "NV"
+        "state": "NV",
+        "neighbors": {
+          "n": "WY",
+          "s": "UT",
+          "e": "CO",
+          "w": "OR"
+        }
       }
     },
     {
@@ -378,7 +486,13 @@
         ]
       },
       "properties": {
-        "state": "NJ"
+        "state": "NJ",
+        "neighbors": {
+          "n": "MA",
+          "s": "DE",
+          "e": "CT",
+          "w": "PA"
+        }
       }
     },
     {
@@ -398,7 +512,13 @@
         ]
       },
       "properties": {
-        "state": "SD"
+        "state": "SD",
+        "neighbors": {
+          "n": "MN",
+          "s": "NE",
+          "e": "IA",
+          "w": "WY"
+        }
       }
     },
     {
@@ -418,7 +538,13 @@
         ]
       },
       "properties": {
-        "state": "OH"
+        "state": "OH",
+        "neighbors": {
+          "n": "MI",
+          "s": "VA",
+          "e": "PA",
+          "w": "IN"
+        }
       }
     },
     {
@@ -438,7 +564,13 @@
         ]
       },
       "properties": {
-        "state": "WY"
+        "state": "WY",
+        "neighbors": {
+          "n": "ND",
+          "s": "CO",
+          "e": "SD",
+          "w": "ID"
+        }
       }
     },
     {
@@ -458,7 +590,13 @@
         ]
       },
       "properties": {
-        "state": "DC"
+        "state": "DC",
+        "neighbors": {
+          "n": "DE",
+          "s": "PR",
+          "e": false,
+          "w": "SD"
+        }
       }
     },
     {
@@ -478,7 +616,13 @@
         ]
       },
       "properties": {
-        "state": "DE"
+        "state": "DE",
+        "neighbors": {
+          "n": "CT",
+          "s": "DC",
+          "e": "CT",
+          "w": "MD"
+        }
       }
     },
     {
@@ -498,7 +642,13 @@
         ]
       },
       "properties": {
-        "state": "FL"
+        "state": "FL",
+        "neighbors": {
+          "n": "GA",
+          "s": false,
+          "e": "PR",
+          "w": "AL"
+        }
       }
     },
     {
@@ -518,7 +668,13 @@
         ]
       },
       "properties": {
-        "state": "PR"
+        "state": "PR",
+        "neighbors": {
+          "n": "DC",
+          "s": false,
+          "e": "VI",
+          "w": "FL"
+        }
       }
     },
     {
@@ -538,7 +694,13 @@
         ]
       },
       "properties": {
-        "state": "VI"
+        "state": "VI",
+        "neighbors": {
+          "n": "DC",
+          "s": false,
+          "e": "PR",
+          "w": false
+        }
       }
     },
     {
@@ -558,7 +720,13 @@
         ]
       },
       "properties": {
-        "state": "NH"
+        "state": "NH",
+        "neighbors": {
+          "n": "ME",
+          "s": "RI",
+          "e": "RI",
+          "w": "VT"
+        }
       }
     },
     {
@@ -578,7 +746,13 @@
         ]
       },
       "properties": {
-        "state": "HI"
+        "state": "HI",
+        "neighbors": {
+          "n": "AS",
+          "s": false,
+          "e": "AK",
+          "w": "MP"
+        }
       }
     },
     {
@@ -598,7 +772,13 @@
         ]
       },
       "properties": {
-        "state": "MP"
+        "state": "MP",
+        "neighbors": {
+          "n": "AS",
+          "s": false,
+          "e": "HI",
+          "w": false
+        }
       }
     },
     {
@@ -618,7 +798,13 @@
         ]
       },
       "properties": {
-        "state": "GU"
+        "state": "GU",
+        "neighbors": {
+          "n": "OR",
+          "s": "AS",
+          "e": "AS",
+          "w": false
+        }
       }
     },
     {
@@ -638,7 +824,13 @@
         ]
       },
       "properties": {
-        "state": "AS"
+        "state": "AS",
+        "neighbors": {
+          "n": "GU",
+          "s": "HI",
+          "e": "HI",
+          "w": "GU"
+        }
       }
     },
     {
@@ -658,7 +850,13 @@
         ]
       },
       "properties": {
-        "state": "TX"
+        "state": "TX",
+        "neighbors": {
+          "n": "LA",
+          "s": false,
+          "e": "LA",
+          "w": "OK"
+        }
       }
     },
     {
@@ -678,7 +876,13 @@
         ]
       },
       "properties": {
-        "state": "AL"
+        "state": "AL",
+        "neighbors": {
+          "n": "NC",
+          "s": "FL",
+          "e": "GA",
+          "w": "MS"
+        }
       }
     },
     {
@@ -698,7 +902,13 @@
         ]
       },
       "properties": {
-        "state": "AZ"
+        "state": "AZ",
+        "neighbors": {
+          "n": "NM",
+          "s": false,
+          "e": "OK",
+          "w": "UT"
+        }
       }
     },
     {
@@ -718,7 +928,13 @@
         ]
       },
       "properties": {
-        "state": "GA"
+        "state": "GA",
+        "neighbors": {
+          "n": "SC",
+          "s": "FL",
+          "e": "PR",
+          "w": "AL"
+        }
       }
     },
     {
@@ -738,7 +954,13 @@
         ]
       },
       "properties": {
-        "state": "LA"
+        "state": "LA",
+        "neighbors": {
+          "n": "AR",
+          "s": "TX",
+          "e": "MS",
+          "w": "OK"
+        }
       }
     },
     {
@@ -758,7 +980,13 @@
         ]
       },
       "properties": {
-        "state": "MS"
+        "state": "MS",
+        "neighbors": {
+          "n": "TN",
+          "s": "TX",
+          "e": "AL",
+          "w": "LA"
+        }
       }
     },
     {
@@ -778,7 +1006,13 @@
         ]
       },
       "properties": {
-        "state": "UT"
+        "state": "UT",
+        "neighbors": {
+          "n": "CO",
+          "s": "AZ",
+          "e": "NM",
+          "w": "CA"
+        }
       }
     },
     {
@@ -798,7 +1032,13 @@
         ]
       },
       "properties": {
-        "state": "CO"
+        "state": "CO",
+        "neighbors": {
+          "n": "SD",
+          "s": "NM",
+          "e": "NE",
+          "w": "NV"
+        }
       }
     },
     {
@@ -818,7 +1058,13 @@
         ]
       },
       "properties": {
-        "state": "AR"
+        "state": "AR",
+        "neighbors": {
+          "n": "KY",
+          "s": "MS",
+          "e": "TN",
+          "w": "KS"
+        }
       }
     },
     {
@@ -838,7 +1084,13 @@
         ]
       },
       "properties": {
-        "state": "ID"
+        "state": "ID",
+        "neighbors": {
+          "n": "MT",
+          "s": "NV",
+          "e": "WY",
+          "w": "WA"
+        }
       }
     },
     {
@@ -858,7 +1110,13 @@
         ]
       },
       "properties": {
-        "state": "OR"
+        "state": "OR",
+        "neighbors": {
+          "n": "ID",
+          "s": "CA",
+          "e": "NV",
+          "w": "GU"
+        }
       }
     },
     {
@@ -878,7 +1136,13 @@
         ]
       },
       "properties": {
-        "state": "IL"
+        "state": "IL",
+        "neighbors": {
+          "n": "WI",
+          "s": "KY",
+          "e": "IN",
+          "w": "IA"
+        }
       }
     },
     {
@@ -898,7 +1162,13 @@
         ]
       },
       "properties": {
-        "state": "PA"
+        "state": "PA",
+        "neighbors": {
+          "n": "NY",
+          "s": "MD",
+          "e": "NJ",
+          "w": "OH"
+        }
       }
     },
     {
@@ -918,7 +1188,13 @@
         ]
       },
       "properties": {
-        "state": "IN"
+        "state": "IN",
+        "neighbors": {
+          "n": "MI",
+          "s": "WV",
+          "e": "OH",
+          "w": "IL"
+        }
       }
     },
     {
@@ -938,7 +1214,13 @@
         ]
       },
       "properties": {
-        "state": "NY"
+        "state": "NY",
+        "neighbors": {
+          "n": "VT",
+          "s": "NJ",
+          "e": "MA",
+          "w": "PA"
+        }
       }
     },
     {
@@ -958,7 +1240,13 @@
         ]
       },
       "properties": {
-        "state": "WA"
+        "state": "WA",
+        "neighbors": {
+          "n": false,
+          "s": "ID",
+          "e": "MT",
+          "w": false
+        }
       }
     },
     {
@@ -978,7 +1266,13 @@
         ]
       },
       "properties": {
-        "state": "WI"
+        "state": "WI",
+        "neighbors": {
+          "n": false,
+          "s": "IL",
+          "e": "MI",
+          "w": "MN"
+        }
       }
     },
     {
@@ -998,7 +1292,13 @@
         ]
       },
       "properties": {
-        "state": "MA"
+        "state": "MA",
+        "neighbors": {
+          "n": "NH",
+          "s": "CT",
+          "e": "RI",
+          "w": "NY"
+        }
       }
     },
     {
@@ -1018,7 +1318,13 @@
         ]
       },
       "properties": {
-        "state": "MI"
+        "state": "MI",
+        "neighbors": {
+          "n": false,
+          "s": "OH",
+          "e": "NY",
+          "w": "WI"
+        }
       }
     },
     {
@@ -1038,7 +1344,13 @@
         ]
       },
       "properties": {
-        "state": "MN"
+        "state": "MN",
+        "neighbors": {
+          "n": false,
+          "s": "IA",
+          "e": "WI",
+          "w": "ND"
+        }
       }
     },
     {
@@ -1058,7 +1370,13 @@
         ]
       },
       "properties": {
-        "state": "MT"
+        "state": "MT",
+        "neighbors": {
+          "n": false,
+          "s": "WY",
+          "e": "ND",
+          "w": "WA"
+        }
       }
     },
     {
@@ -1078,7 +1396,13 @@
         ]
       },
       "properties": {
-        "state": "ND"
+        "state": "ND",
+        "neighbors": {
+          "n": false,
+          "s": "SD",
+          "e": "MN",
+          "w": "MT"
+        }
       }
     },
     {
@@ -1098,7 +1422,13 @@
         ]
       },
       "properties": {
-        "state": "AK"
+        "state": "AK",
+        "neighbors": {
+          "n": "CA",
+          "s": false,
+          "e": "AZ",
+          "w": "HI"
+        }
       }
     },
     {
@@ -1118,7 +1448,13 @@
         ]
       },
       "properties": {
-        "state": "CT"
+        "state": "CT",
+        "neighbors": {
+          "n": "RI",
+          "s": "DE",
+          "e": false,
+          "w": "NJ"
+        }
       }
     }
   ]

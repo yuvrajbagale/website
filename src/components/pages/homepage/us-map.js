@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useRef } from 'react'
 import { useStaticQuery, graphql, navigate, Link } from 'gatsby'
 import { geoPath, geoMercator } from 'd3-geo'
 import slugify from 'slugify'
@@ -147,7 +147,7 @@ const metrics = {
   },
 }
 
-const State = ({ feature, path, metric }) => {
+const State = ({ feature, path, metric, isActive = false }) => {
   const levelClass =
     usMapStyles[
       `levelBackground${metrics[metric].getLimitClass(
@@ -159,7 +159,11 @@ const State = ({ feature, path, metric }) => {
     <path
       key={`path${feature.properties.state}`}
       d={path(feature)}
-      className={classnames(usMapStyles.state, levelClass)}
+      className={classnames(
+        usMapStyles.state,
+        isActive && usMapStyles.active,
+        levelClass,
+      )}
       onClick={() => {
         navigate(feature.properties.stateInfo.link)
       }}
@@ -268,6 +272,8 @@ const MapLegend = ({ metric }) => (
 )
 
 const Map = ({ metric }) => {
+  const [activeState, setActiveState] = useState(false)
+  const mapRef = useRef(false)
   const path = useMemo(() => {
     const projection = geoMercator().fitExtent(
       [
@@ -279,13 +285,62 @@ const Map = ({ metric }) => {
     return geoPath().projection(projection)
   }, [mapWidth, mapHeight])
 
+  const setStateNeighbor = direction => {
+    const { neighbors } = stateShapes.features[
+      activeState !== false ? activeState : 0
+    ].properties
+    if (neighbors && neighbors[direction] !== false) {
+      setActiveState(
+        stateShapes.features.findIndex(
+          feature => feature.properties.state === neighbors[direction],
+        ),
+      )
+    }
+  }
+
   return (
     <>
       <svg
+        ref={mapRef}
         className={usMapStyles.map}
         width={mapWidth}
         height={mapHeight}
+        tabIndex="0"
         aria-hidden
+        onMouseOut={() => setActiveState(false)}
+        onBlur={() => setActiveState(false)}
+        onFocus={() => {
+          setActiveState(0)
+        }}
+        onKeyDown={event => {
+          event.preventDefault()
+          if (event.key === 'Escape') {
+            mapRef.current.blur()
+          }
+          if (event.key === 'Tab' || event.key === 'ArrowRight') {
+            setStateNeighbor('e')
+          }
+          if (
+            (event.shiftKey && event.key === 'Tab') ||
+            event.key === 'ArrowLeft'
+          ) {
+            setStateNeighbor('w')
+          }
+          if (event.key === 'ArrowDown') {
+            setStateNeighbor('s')
+          }
+          if (event.key === 'ArrowUp') {
+            setStateNeighbor('n')
+          }
+          if (event.key === 'Enter') {
+            if (activeState === false) {
+              return
+            }
+            navigate(
+              stateShapes.features[activeState].properties.stateInfo.link,
+            )
+          }
+        }}
       >
         <g>
           {stateShapes.features.map(feature => (
@@ -307,6 +362,21 @@ const Map = ({ metric }) => {
             />
           ))}
         </g>
+        {activeState !== false && (
+          <g>
+            <State
+              feature={stateShapes.features[activeState]}
+              path={path}
+              metric={metric}
+              isActive
+            />
+            <Label
+              feature={stateShapes.features[activeState]}
+              path={path}
+              metric={metric}
+            />
+          </g>
+        )}
       </svg>
       <MapLegend metric={metric} />
     </>
