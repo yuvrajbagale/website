@@ -1,10 +1,34 @@
-$color-level-low: $color-plum-600;
-$color-level-medium: white;
-$color-level-high: $color-honey-400;
+$color-levels-background: (
+  100: $color-plum-600,
+  500: white,
+  600: $color-honey-100,
+  1000: $color-honey-400,
+);
 
-$color-text-low: white;
-$color-text-medium: black;
-$color-text-high: black;
+$color-levels-text: (
+  100: white,
+  500: black,
+  600: black,
+  1000: black,
+);
+
+@each $name, $value in $color-levels-text {
+  .level-text-#{$name} {
+    fill: $value;
+    color: $value;
+    a {
+      fill: $value;
+      color: $value;
+    }
+  }
+}
+
+@each $name, $value in $color-levels-background {
+  .level-background-#{$name} {
+    background: $value;
+    fill: $value;
+  }
+}
 
 .map-wrapper {
   position: relative;
@@ -16,16 +40,12 @@ $color-text-high: black;
     display: none;
     @media (min-width: $viewport-lg) {
       display: block;
-      margin: 0 auto;
-      margin-top: -50px;
+      @include margin(80, left);
     }
   }
   .map-heading {
     position: relative;
     @include col(4 4 9);
-    @media (min-width: $viewport-lg) {
-      position: absolute;
-    }
     @include type-size(500);
     div {
       @include type-size(400);
@@ -44,7 +64,6 @@ $color-text-high: black;
 }
 
 .state {
-  fill: $color-honey-200;
   stroke: $color-plum-700;
   stroke-width: 3px;
   cursor: pointer;
@@ -53,36 +72,14 @@ $color-text-high: black;
     stroke-width: 5px;
     z-index: 100;
   }
-  &.level-low {
-    fill: $color-level-low;
-  }
-  &.level-medium {
-    fill: $color-level-medium;
-  }
-  &.level-high {
-    fill: $color-level-high;
-  }
 }
 
 .label {
   @include type-size(300);
-  fill: black;
   cursor: pointer;
   &.state-label {
     font-weight: bold;
     @include type-size(400);
-  }
-
-  &.text-low {
-    fill: $color-text-low;
-  }
-
-  &.text-medium {
-    fill: $color-text-medium;
-  }
-
-  &.text-high {
-    fill: $color-text-high;
   }
 }
 
@@ -100,27 +97,8 @@ $color-text-high: black;
       @include padding(8);
       text-align: center;
       a {
-        color: white;
         text-decoration: none;
         display: block;
-      }
-      &.level-low {
-        background: $color-level-low;
-        a {
-          color: $color-text-low;
-        }
-      }
-      &.level-medium {
-        background: $color-level-medium;
-        a {
-          color: $color-text-medium;
-        }
-      }
-      &.level-high {
-        background: $color-level-high;
-        a {
-          color: $color-text-high;
-        }
       }
       .name {
         @include type-size(400);
@@ -142,15 +120,6 @@ $color-text-high: black;
     .bar {
       height: spacer(8);
       @include margin(8, bottom);
-      &.low {
-        background: $color-level-low;
-      }
-      &.medium {
-        background: $color-level-medium;
-      }
-      &.high {
-        background: $color-level-high;
-      }
     }
   }
 }

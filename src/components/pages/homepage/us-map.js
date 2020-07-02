@@ -24,26 +24,26 @@ const metrics = {
     },
     getLimitClass: ({ sevenDayPositive }) => {
       if (sevenDayPositive <= 500) {
-        return 'Low'
+        return 100
       }
       if (sevenDayPositive <= 1000) {
-        return 'Medium'
+        return 500
       }
-      return 'High'
+      return 1000
     },
     format: ({ sevenDayPositive }) => sevenDayPositive.toLocaleString(),
     levels: [
       {
-        type: 'low',
-        className: usMapStyles.levelLow,
+        type: 100,
+        className: [usMapStyles.levelBackground100, usMapStyles.levelText100],
         title: 'Below 500 cases',
         find: states =>
           states.filter(({ sevenDayPositive }) => sevenDayPositive < 500),
       },
       {
-        type: 'medium',
+        type: 500,
         title: '500-1,000 cases',
-        className: usMapStyles.levelMedium,
+        className: [usMapStyles.levelBackground500, usMapStyles.levelText500],
         find: states =>
           states.filter(
             ({ sevenDayPositive }) =>
@@ -51,9 +51,9 @@ const metrics = {
           ),
       },
       {
-        type: 'high',
+        type: 1000,
         title: 'Over 1,000 cases',
-        className: usMapStyles.levelHigh,
+        className: [usMapStyles.levelBackground1000, usMapStyles.levelText1000],
         find: states =>
           states.filter(({ sevenDayPositive }) => sevenDayPositive >= 1000),
       },
@@ -66,26 +66,26 @@ const metrics = {
     },
     getLimitClass: ({ testsPer100thousand }) => {
       if (testsPer100thousand < 100) {
-        return 'High'
+        return 1000
       }
       if (testsPer100thousand < 150) {
-        return 'Medium'
+        return 500
       }
-      return 'Low'
+      return 100
     },
     format: ({ testsPer100thousand }) => testsPer100thousand.toLocaleString(),
     levels: [
       {
-        type: 'low',
+        type: 100,
         title: 'Over 150 tests',
-        className: usMapStyles.levelLow,
+        className: [usMapStyles.levelBackground100, usMapStyles.levelText100],
         find: states =>
           states.filter(({ testsPer100thousand }) => testsPer100thousand > 150),
       },
       {
-        type: 'medium',
+        type: 500,
         title: '100-150 tests',
-        className: usMapStyles.levelMedium,
+        className: [usMapStyles.levelBackground500, usMapStyles.levelText500],
         find: states =>
           states.filter(
             ({ testsPer100thousand }) =>
@@ -93,8 +93,8 @@ const metrics = {
           ),
       },
       {
-        type: 'high',
-        className: usMapStyles.levelHigh,
+        type: 1000,
+        className: [usMapStyles.levelBackground1000, usMapStyles.levelText1000],
         title: 'Below 100 tests',
         find: states =>
           states.filter(({ testsPer100thousand }) => testsPer100thousand < 100),
@@ -109,27 +109,27 @@ const metrics = {
     },
     getLimitClass: ({ percentPositive }) => {
       if (percentPositive < 0.03) {
-        return 'Low'
+        return 100
       }
       if (percentPositive < 0.1) {
-        return 'Medium'
+        return 500
       }
-      return 'High'
+      return 1000
     },
     format: ({ percentPositive }) =>
       percentPositive ? `${Math.round(percentPositive * 1000) / 10}%` : '0%',
     levels: [
       {
-        type: 'low',
-        className: usMapStyles.levelLow,
+        type: 100,
+        className: [usMapStyles.levelBackground100, usMapStyles.levelText100],
         title: 'Below 3% positive',
         find: states =>
           states.filter(({ percentPositive }) => percentPositive < 0.03),
       },
       {
-        type: 'medium',
+        type: 500,
         title: '3% - 10% positive',
-        className: usMapStyles.levelMedium,
+        className: [usMapStyles.levelBackground500, usMapStyles.levelText500],
         find: states =>
           states.filter(
             ({ percentPositive }) =>
@@ -137,9 +137,9 @@ const metrics = {
           ),
       },
       {
-        type: 'high',
+        type: 1000,
         title: 'Over 10% positive',
-        className: usMapStyles.levelHigh,
+        className: [usMapStyles.levelBackground1000, usMapStyles.levelText1000],
         find: states =>
           states.filter(({ percentPositive }) => percentPositive > 0.1),
       },
@@ -150,7 +150,9 @@ const metrics = {
 const State = ({ feature, path, metric, setActive, isActive = false }) => {
   const levelClass =
     usMapStyles[
-      `level${metrics[metric].getLimitClass(feature.properties.stateInfo)}`
+      `levelBackground${metrics[metric].getLimitClass(
+        feature.properties.stateInfo,
+      )}`
     ]
 
   return (
@@ -177,7 +179,7 @@ const Label = ({ feature, setActive, metric, path }) => {
   const centroid = path.centroid(feature)
   const levelClass =
     usMapStyles[
-      `text${metrics[metric].getLimitClass(feature.properties.stateInfo)}`
+      `levelText${metrics[metric].getLimitClass(feature.properties.stateInfo)}`
     ]
   return (
     <>
@@ -264,7 +266,11 @@ const MapLegendItem = ({ title, className }) => (
 const MapLegend = ({ metric }) => (
   <div className={usMapStyles.legend}>
     {metrics[metric].levels.map(({ title, type }) => (
-      <MapLegendItem title={title} key={title} className={usMapStyles[type]} />
+      <MapLegendItem
+        title={title}
+        key={title}
+        className={usMapStyles[`levelBackground${type}`]}
+      />
     ))}
   </div>
 )
