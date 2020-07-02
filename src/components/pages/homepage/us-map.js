@@ -7,8 +7,8 @@ import classnames from 'classnames'
 import stateShapes from '~data/visualization/states-hexgrid.json'
 import usMapStyles from './us-map.module.scss'
 
-const mapWidth = 1000
-const mapHeight = 600
+const mapWidth = 900
+const mapHeight = 540
 const margin = {
   top: 0,
   left: 5,
@@ -454,7 +454,7 @@ export default () => {
       </h2>
       <Map metric={metric} />
       <StateList states={states} metric={metric} />
-      <p>
+      <p className={usMapStyles.note}>
         We compile data from official, public state and territory data. This
         data shows a strong day-of-the-week effect because fewer tests are
         completed on weekends in most areas, so we calculate a seven-day rolling
