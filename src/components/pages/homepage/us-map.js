@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import React, { useState, useMemo } from 'react'
-import { useStaticQuery, graphql, Link } from 'gatsby'
+import { useStaticQuery, graphql, navigate, Link } from 'gatsby'
 import { geoPath, geoMercator } from 'd3-geo'
 import slugify from 'slugify'
 import classnames from 'classnames'
@@ -147,7 +147,7 @@ const metrics = {
   },
 }
 
-const State = ({ feature, path, metric, setActive, isActive = false }) => {
+const State = ({ feature, path, metric }) => {
   const levelClass =
     usMapStyles[
       `levelBackground${metrics[metric].getLimitClass(
@@ -159,23 +159,15 @@ const State = ({ feature, path, metric, setActive, isActive = false }) => {
     <path
       key={`path${feature.properties.state}`}
       d={path(feature)}
-      className={classnames(
-        usMapStyles.state,
-        isActive && usMapStyles.active,
-        levelClass,
-      )}
-      onClick={event => {
-        event.preventDefault()
-        if (isActive) {
-          return setActive(false)
-        }
-        return setActive(feature)
+      className={classnames(usMapStyles.state, levelClass)}
+      onClick={() => {
+        navigate(feature.properties.stateInfo.link)
       }}
     />
   )
 }
 
-const Label = ({ feature, setActive, metric, path }) => {
+const Label = ({ feature, metric, path }) => {
   const centroid = path.centroid(feature)
   const levelClass =
     usMapStyles[
@@ -191,7 +183,7 @@ const Label = ({ feature, setActive, metric, path }) => {
           usMapStyles.stateLabel,
           levelClass,
         )}
-        onClick={() => setActive(feature)}
+        onClick={() => navigate(feature.properties.stateInfo.link)}
       >
         {feature.properties.stateInfo.state}
       </text>
@@ -199,7 +191,7 @@ const Label = ({ feature, setActive, metric, path }) => {
         x={centroid[0] - 20}
         y={centroid[1] + 20}
         className={classnames(usMapStyles.label, levelClass)}
-        onClick={() => setActive(feature)}
+        onClick={() => navigate(feature.properties.stateInfo.link)}
       >
         {metrics[metric].format(feature.properties.stateInfo)}
       </text>
@@ -276,7 +268,6 @@ const MapLegend = ({ metric }) => (
 )
 
 const Map = ({ metric }) => {
-  const [activeState, setActiveState] = useState(false)
   const path = useMemo(() => {
     const projection = geoMercator().fitExtent(
       [
@@ -294,7 +285,6 @@ const Map = ({ metric }) => {
         className={usMapStyles.map}
         width={mapWidth}
         height={mapHeight}
-        onMouseLeave={() => setActiveState(false)}
         aria-hidden
       >
         <g>
@@ -304,7 +294,6 @@ const Map = ({ metric }) => {
               feature={feature}
               path={path}
               metric={metric}
-              setActive={stateFeature => setActiveState(stateFeature)}
             />
           ))}
         </g>
@@ -315,28 +304,9 @@ const Map = ({ metric }) => {
               feature={feature}
               path={path}
               metric={metric}
-              setActive={stateFeature => setActiveState(stateFeature)}
             />
           ))}
         </g>
-
-        {activeState && (
-          <g>
-            <State
-              feature={activeState}
-              path={path}
-              metric={metric}
-              setActive={() => setActiveState(false)}
-              isActive
-            />
-            <Label
-              feature={activeState}
-              path={path}
-              metric={metric}
-              setActive={() => setActiveState(false)}
-            />
-          </g>
-        )}
       </svg>
       <MapLegend metric={metric} />
     </>
