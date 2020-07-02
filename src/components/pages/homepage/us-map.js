@@ -194,7 +194,7 @@ const Label = ({ feature, setActive, metric, path }) => {
       </text>
       <text
         x={centroid[0] - 20}
-        y={centroid[1] + 15}
+        y={centroid[1] + 20}
         className={classnames(usMapStyles.label, levelClass)}
         onClick={() => setActive(feature)}
       >
