@@ -19,7 +19,7 @@ const margin = {
 const metrics = {
   sevenDayPositive: {
     title: {
-      main: 'New COVID-19 cases by state/territory',
+      main: 'New daily COVID-19 cases reported by states and territories',
       subTitle: 'Seven-day rolling average',
     },
     getLimitClass: ({ sevenDayPositive }) => {
@@ -61,8 +61,8 @@ const metrics = {
   },
   testsPer100thousand: {
     title: {
-      main: 'Tests for COVID-19 by state/territory',
-      subTitle: 'Seven-day rolling average of tests per 100k people',
+      main: 'COVID-19 tests performed per 100k people',
+      subTitle: 'Seven-day rolling average',
     },
     getLimitClass: ({ testsPer100thousand }) => {
       if (testsPer100thousand < 100) {
@@ -103,8 +103,9 @@ const metrics = {
   },
   percentPositive: {
     title: {
-      main: 'Percent positive tests for COVID-19 by state/territory',
-      subTitle: 'Percentage of positive tests in the past seven days',
+      main: 'Percent-positive rate for US states and territories',
+      subTitle:
+        'Percentage of tests that came back positive over the past seven day',
     },
     getLimitClass: ({ percentPositive }) => {
       if (percentPositive < 0.03) {
