@@ -23,10 +23,10 @@ const metrics = {
       subTitle: 'Seven-day rolling average',
     },
     getLimitClass: ({ sevenDayPositive }) => {
-      if (sevenDayPositive <= 1000) {
+      if (sevenDayPositive <= 500) {
         return 'Low'
       }
-      if (sevenDayPositive <= 2000) {
+      if (sevenDayPositive <= 1000) {
         return 'Medium'
       }
       return 'High'
@@ -36,26 +36,26 @@ const metrics = {
       {
         type: 'low',
         className: usMapStyles.levelLow,
-        title: 'Below 1,000 cases',
+        title: 'Below 500 cases',
         find: states =>
-          states.filter(({ sevenDayPositive }) => sevenDayPositive < 1000),
+          states.filter(({ sevenDayPositive }) => sevenDayPositive < 500),
       },
       {
         type: 'medium',
-        title: '1,000-2,000 cases',
+        title: '500-1,000 cases',
         className: usMapStyles.levelMedium,
         find: states =>
           states.filter(
             ({ sevenDayPositive }) =>
-              sevenDayPositive >= 1000 && sevenDayPositive < 2000,
+              sevenDayPositive >= 500 && sevenDayPositive < 1000,
           ),
       },
       {
         type: 'high',
-        title: 'Over 2,000 cases',
+        title: 'Over 1,000 cases',
         className: usMapStyles.levelHigh,
         find: states =>
-          states.filter(({ sevenDayPositive }) => sevenDayPositive > 2000),
+          states.filter(({ sevenDayPositive }) => sevenDayPositive >= 1000),
       },
     ],
   },
