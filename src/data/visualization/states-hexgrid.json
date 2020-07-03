@@ -23,7 +23,7 @@
           "n": false,
           "s": "NH",
           "e": false,
-          "w": "NN"
+          "w": "NH"
         }
       }
     },
@@ -256,8 +256,8 @@
         "neighbors": {
           "n": "IN",
           "s": "TN",
-          "e": "MO",
-          "w": "WV"
+          "e": "WV",
+          "w": "MO"
         }
       }
     },
@@ -386,8 +386,8 @@
         "neighbors": {
           "n": "MD",
           "s": "GA",
-          "e": "NC",
-          "w": "DC"
+          "e": "DC",
+          "w": "NC"
         }
       }
     },
@@ -595,7 +595,7 @@
           "n": "DE",
           "s": "PR",
           "e": false,
-          "w": "SD"
+          "w": "SC"
         }
       }
     },
@@ -698,8 +698,8 @@
         "neighbors": {
           "n": "DC",
           "s": false,
-          "e": "PR",
-          "w": false
+          "e": false,
+          "w": "PR"
         }
       }
     },

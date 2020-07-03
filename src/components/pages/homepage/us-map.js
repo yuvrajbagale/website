@@ -27,6 +27,9 @@ const metrics = {
         return 100
       }
       if (sevenDayPositive <= 1000) {
+        return 200
+      }
+      if (sevenDayPositive <= 5000) {
         return 500
       }
       return 1000
@@ -41,9 +44,9 @@ const metrics = {
           states.filter(({ sevenDayPositive }) => sevenDayPositive < 500),
       },
       {
-        type: 500,
+        type: 200,
         title: '500-1,000 cases',
-        className: [usMapStyles.levelBackground500, usMapStyles.levelText500],
+        className: [usMapStyles.levelBackground200, usMapStyles.levelText200],
         find: states =>
           states.filter(
             ({ sevenDayPositive }) =>
@@ -51,11 +54,21 @@ const metrics = {
           ),
       },
       {
+        type: 500,
+        title: '1,000-5,000 cases',
+        className: [usMapStyles.levelBackground500, usMapStyles.levelText500],
+        find: states =>
+          states.filter(
+            ({ sevenDayPositive }) =>
+              sevenDayPositive >= 1000 && sevenDayPositive < 5000,
+          ),
+      },
+      {
         type: 1000,
-        title: 'Over 1,000 cases',
+        title: 'Over 5,000 cases',
         className: [usMapStyles.levelBackground1000, usMapStyles.levelText1000],
         find: states =>
-          states.filter(({ sevenDayPositive }) => sevenDayPositive >= 1000),
+          states.filter(({ sevenDayPositive }) => sevenDayPositive >= 5000),
       },
     ],
   },
@@ -66,35 +79,35 @@ const metrics = {
     },
     getLimitClass: ({ testsPer100thousand }) => {
       if (testsPer100thousand < 100) {
-        return 1000
+        return 1100
       }
       if (testsPer100thousand < 150) {
-        return 500
+        return 1200
       }
-      return 100
+      return 1300
     },
     format: ({ testsPer100thousand }) => testsPer100thousand.toLocaleString(),
     levels: [
       {
-        type: 100,
-        title: 'Over 150 tests',
-        className: [usMapStyles.levelBackground100, usMapStyles.levelText100],
+        type: 1300,
+        title: 'Over 300 mitigation goal',
+        className: [usMapStyles.levelBackground1300, usMapStyles.levelText1300],
         find: states =>
           states.filter(({ testsPer100thousand }) => testsPer100thousand > 150),
       },
       {
-        type: 500,
-        title: '100-150 tests',
-        className: [usMapStyles.levelBackground500, usMapStyles.levelText500],
+        type: 1200,
+        title: '100-300 tests',
+        className: [usMapStyles.levelBackground1200, usMapStyles.levelText1200],
         find: states =>
           states.filter(
             ({ testsPer100thousand }) =>
-              testsPer100thousand >= 100 && testsPer100thousand < 150,
+              testsPer100thousand >= 100 && testsPer100thousand < 300,
           ),
       },
       {
-        type: 1000,
-        className: [usMapStyles.levelBackground1000, usMapStyles.levelText1000],
+        type: 1100,
+        className: [usMapStyles.levelBackground1100, usMapStyles.levelText1100],
         title: 'Below 100 tests',
         find: states =>
           states.filter(({ testsPer100thousand }) => testsPer100thousand < 100),
@@ -122,13 +135,13 @@ const metrics = {
       {
         type: 100,
         className: [usMapStyles.levelBackground100, usMapStyles.levelText100],
-        title: 'Below 3% positive',
+        title: 'Below 3% positive suppression goal',
         find: states =>
           states.filter(({ percentPositive }) => percentPositive < 0.03),
       },
       {
         type: 500,
-        title: '3% - 10% positive',
+        title: '3% - 10% positive mitigation goal',
         className: [usMapStyles.levelBackground500, usMapStyles.levelText500],
         find: states =>
           states.filter(
@@ -260,7 +273,7 @@ const MapLegendItem = ({ title, className }) => (
 )
 
 const MapLegend = ({ metric }) => (
-  <div className={usMapStyles.legend}>
+  <div className={usMapStyles.legend} aria-hidden>
     {metrics[metric].levels.map(({ title, type }) => (
       <MapLegendItem
         title={title}
@@ -300,6 +313,13 @@ const Map = ({ metric }) => {
 
   return (
     <>
+      {activeState !== false && (
+        <div className={usMapStyles.instructions}>
+          Use <strong>Escape</strong> to skip this map,{' '}
+          <strong>arrow keys</strong> to navigate, and <strong>Enter</strong> to
+          select a state.
+        </div>
+      )}
       <svg
         ref={mapRef}
         className={usMapStyles.map}
@@ -455,6 +475,9 @@ export default () => {
   return (
     <div className={usMapStyles.mapWrapper}>
       <h1>COVID-19 in the US</h1>
+      <a href="#skip-map" className={usMapStyles.skipMap}>
+        Skip map &amp; list of states
+      </a>
       <div className={usMapStyles.toggle}>
         <button
           type="button"
@@ -502,6 +525,7 @@ export default () => {
         <Link to="/data">national and state data</Link> or{' '}
         <Link to="/data/download">download CSVs</Link>.
       </p>
+      <div id="skip-map" />
     </div>
   )
 }

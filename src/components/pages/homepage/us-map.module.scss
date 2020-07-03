@@ -1,15 +1,25 @@
 $color-levels-background: (
   100: $color-plum-600,
+  200: $color-plum-200,
   500: white,
   600: $color-honey-100,
   1000: $color-honey-400,
+  1100: #48cdeb,
+  1200: #41a7cf,
+  1300: #3c81b2,
+  1400: #365a96,
 );
 
 $color-levels-text: (
   100: white,
+  200: black,
   500: black,
   600: black,
   1000: black,
+  1100: black,
+  1200: black,
+  1300: white,
+  1400: white,
 );
 
 @each $name, $value in $color-levels-text {
@@ -31,6 +41,7 @@ $color-levels-text: (
 }
 
 .map-wrapper {
+  position: relative;
   h1 {
     margin-top: 0;
     @include type-size(600);
@@ -45,6 +56,14 @@ $color-levels-text: (
       margin-left: auto;
       margin-right: auto;
     }
+  }
+  .instructions {
+    width: 250px;
+    background: $color-plum-200;
+    color: black;
+    position: absolute;
+    top: -15px;
+    @include padding(16);
   }
   .map-heading {
     @include type-size(400);
@@ -114,15 +133,13 @@ $color-levels-text: (
 }
 
 .legend {
-  display: none;
-  width: 60%;
+  display: grid;
+  width: 70%;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   margin: spacer(32) auto;
-  @media (min-width: $viewport-lg) {
-    @include row();
-  }
   .item {
-    @include col(4 6 4, 0 0 0, 0 0 4);
     text-align: center;
+    @include padding(4, right);
     .bar {
       height: spacer(8);
       @include margin(8, bottom);
@@ -164,5 +181,16 @@ $toggle-button-radius: 4px;
   @include col(4 6 8);
   @media (min-width: $viewport-lg) {
     margin: spacer(64) auto 0 auto;
+  }
+}
+
+.skip-map {
+  @include a11y-only();
+  background: $color-plum-200;
+  @include padding(16);
+  &:focus {
+    width: auto;
+    height: auto;
+    clip: auto;
   }
 }
