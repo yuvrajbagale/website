@@ -5,10 +5,9 @@ $color-levels-background: (
   700: #fef9cd,
   600: $color-honey-100,
   1000: $color-honey-400,
-  1100: #48cdeb,
-  1200: #41a7cf,
-  1300: #3c81b2,
-  1400: #365a96,
+  1100: #5d6d9a,
+  1200: rgb(136, 167, 186),
+  1300: #b5e2db,
 );
 
 $color-levels-text: (
@@ -18,10 +17,9 @@ $color-levels-text: (
   600: black,
   700: black,
   1000: black,
-  1100: black,
-  1200: black,
-  1300: white,
-  1400: white,
+  1100: white,
+  1200: white,
+  1300: black,
 );
 
 @each $name, $value in $color-levels-text {

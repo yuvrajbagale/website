@@ -35,6 +35,7 @@ const metrics = {
       return 1000
     },
     format: ({ sevenDayPositive }) => sevenDayPositive.toLocaleString(),
+    reverseMobileOrder: true,
     levels: [
       {
         type: 100,
@@ -86,6 +87,7 @@ const metrics = {
       }
       return 1300
     },
+    reverseMobileOrder: false,
     format: ({ testsPer100thousand }) => testsPer100thousand.toLocaleString(),
     levels: [
       {
@@ -129,6 +131,7 @@ const metrics = {
       }
       return 1000
     },
+    reverseMobileOrder: true,
     format: ({ percentPositive }) =>
       percentPositive ? `${Math.round(percentPositive * 1000) / 10}%` : '0%',
     levels: [
@@ -245,11 +248,13 @@ const StateListStatistics = ({ title, states, className, metric }) => {
   )
 }
 
-const StateList = ({ states, metric }) => (
-  <div className={usMapStyles.stateList}>
-    {[...metrics[metric].levels]
-      .reverse()
-      .map(({ type, title, className, find }) => (
+const StateList = ({ states, metric }) => {
+  const list = metrics[metric].reverseMobileOrder
+    ? [...metrics[metric].levels].reverse()
+    : [...metrics[metric].levels]
+  return (
+    <div className={usMapStyles.stateList}>
+      {list.map(({ type, title, className, find }) => (
         <StateListStatistics
           key={title}
           title={title}
@@ -259,8 +264,9 @@ const StateList = ({ states, metric }) => (
           states={find(states)}
         />
       ))}
-  </div>
-)
+    </div>
+  )
+}
 
 const getAverage = (history, field) =>
   history.reduce((total, item) => total + item[field], 0) / history.length
@@ -272,17 +278,22 @@ const MapLegendItem = ({ title, className }) => (
   </div>
 )
 
-const MapLegend = ({ metric }) => (
-  <div className={usMapStyles.legend} aria-hidden>
-    {metrics[metric].levels.map(({ title, type }) => (
-      <MapLegendItem
-        title={title}
-        key={title}
-        className={usMapStyles[`levelBackground${type}`]}
-      />
-    ))}
-  </div>
-)
+const MapLegend = ({ metric }) => {
+  const list = metrics[metric].reverseMobileOrder
+    ? [...metrics[metric].levels]
+    : [...metrics[metric].levels].reverse()
+  return (
+    <div className={usMapStyles.legend} aria-hidden>
+      {list.map(({ title, type }) => (
+        <MapLegendItem
+          title={title}
+          key={title}
+          className={usMapStyles[`levelBackground${type}`]}
+        />
+      ))}
+    </div>
+  )
+}
 
 const Map = ({ metric }) => {
   const [activeState, setActiveState] = useState(false)
