@@ -133,10 +133,13 @@ $color-levels-text: (
 }
 
 .legend {
-  display: grid;
+  display: none;
   width: 70%;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   margin: spacer(32) auto;
+  @media (min-width: $viewport-lg) {
+    display: grid;
+  }
   .item {
     text-align: center;
     @include padding(4, right);
