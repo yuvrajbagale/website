@@ -30,7 +30,7 @@ const metrics = {
         return 200
       }
       if (sevenDayPositive <= 5000) {
-        return 500
+        return 700
       }
       return 1000
     },
@@ -54,9 +54,9 @@ const metrics = {
           ),
       },
       {
-        type: 500,
+        type: 700,
         title: '1,000-5,000 cases',
-        className: [usMapStyles.levelBackground500, usMapStyles.levelText500],
+        className: [usMapStyles.levelBackground700, usMapStyles.levelText700],
         find: states =>
           states.filter(
             ({ sevenDayPositive }) =>
