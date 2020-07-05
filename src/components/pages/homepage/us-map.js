@@ -73,49 +73,6 @@ const metrics = {
       },
     ],
   },
-  testsPer100thousand: {
-    title: {
-      main: 'COVID-19 tests performed per 100k people',
-      subTitle: 'Seven-day rolling average',
-    },
-    getLimitClass: ({ testsPer100thousand }) => {
-      if (testsPer100thousand < 100) {
-        return 1100
-      }
-      if (testsPer100thousand < 150) {
-        return 1200
-      }
-      return 1300
-    },
-    reverseMobileOrder: false,
-    format: ({ testsPer100thousand }) => testsPer100thousand.toLocaleString(),
-    levels: [
-      {
-        type: 1300,
-        title: 'Over 300 mitigation goal',
-        className: [usMapStyles.levelBackground1300, usMapStyles.levelText1300],
-        find: states =>
-          states.filter(({ testsPer100thousand }) => testsPer100thousand > 150),
-      },
-      {
-        type: 1200,
-        title: '100-300 tests',
-        className: [usMapStyles.levelBackground1200, usMapStyles.levelText1200],
-        find: states =>
-          states.filter(
-            ({ testsPer100thousand }) =>
-              testsPer100thousand >= 100 && testsPer100thousand < 300,
-          ),
-      },
-      {
-        type: 1100,
-        className: [usMapStyles.levelBackground1100, usMapStyles.levelText1100],
-        title: 'Below 100 tests',
-        find: states =>
-          states.filter(({ testsPer100thousand }) => testsPer100thousand < 100),
-      },
-    ],
-  },
   percentPositive: {
     title: {
       main: 'Percent-positive rate for US states and territories',
@@ -436,8 +393,31 @@ export default () => {
           }
         }
       }
+      casesMessage: contentfulSnippet(slug: { eq: "homepage-map-cases" }) {
+        contentful_id
+        childContentfulSnippetContentTextNode {
+          childMarkdownRemark {
+            html
+          }
+        }
+      }
+      percentPositiveMessage: contentfulSnippet(
+        slug: { eq: "homepage-map-percent-positive" }
+      ) {
+        contentful_id
+        childContentfulSnippetContentTextNode {
+          childMarkdownRemark {
+            html
+          }
+        }
+      }
     }
   `)
+
+  const metricMessages = {
+    sevenDayPositive: 'casesMessage',
+    percentPositive: 'percentPositiveMessage',
+  }
 
   const states = []
   data.allCovidStateInfo.nodes.forEach(state => {
@@ -453,11 +433,7 @@ export default () => {
     states.push({
       ...state,
       sevenDayPositive: Math.round(getAverage(stateInfo, 'positiveIncrease')),
-      testsPer100thousand: Math.round(
-        (getAverage(stateInfo, 'posNegIncrease') /
-          stateInfo[0].childPopulation.population) *
-          100000,
-      ),
+
       percentPositive:
         stateInfo.reduce(
           (positive, posNegState) => posNegState.positiveIncrease + positive,
@@ -502,16 +478,6 @@ export default () => {
         </button>
         <button
           type="button"
-          data-active={metric === 'testsPer100thousand' ? true : undefined}
-          onClick={event => {
-            event.preventDefault()
-            setMetric('testsPer100thousand')
-          }}
-        >
-          Tests
-        </button>
-        <button
-          type="button"
           data-active={metric === 'percentPositive' ? true : undefined}
           onClick={event => {
             event.preventDefault()
@@ -528,14 +494,14 @@ export default () => {
       </h2>
       <Map metric={metric} />
       <StateList states={states} metric={metric} />
-      <p className={usMapStyles.note}>
-        We compile data from official, public state and territory data. This
-        data shows a strong day-of-the-week effect because fewer tests are
-        completed on weekends in most areas, so we calculate a seven-day rolling
-        average of the new case numbers. You can see all the{' '}
-        <Link to="/data">national and state data</Link> or{' '}
-        <Link to="/data/download">download CSVs</Link>.
-      </p>
+      <div
+        className={usMapStyles.note}
+        dangerouslySetInnerHTML={{
+          __html:
+            data[metricMessages[metric]].childContentfulSnippetContentTextNode
+              .childMarkdownRemark.html,
+        }}
+      />
       <div id="skip-map" />
     </div>
   )
