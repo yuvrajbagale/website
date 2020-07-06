@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign,jsx-a11y/mouse-events-have-key-events */
 import React, { useState, useMemo, useRef } from 'react'
 import { useStaticQuery, graphql, navigate, Link } from 'gatsby'
 import { geoPath, geoMercator } from 'd3-geo'
@@ -120,7 +120,14 @@ const metrics = {
   },
 }
 
-const State = ({ feature, path, metric, isActive = false }) => {
+const State = ({
+  feature,
+  path,
+  metric,
+  onMouseEnter,
+  isActive = false,
+  isHovered = false,
+}) => {
   const levelClass =
     usMapStyles[
       `levelBackground${metrics[metric].getLimitClass(
@@ -135,11 +142,13 @@ const State = ({ feature, path, metric, isActive = false }) => {
       className={classnames(
         usMapStyles.state,
         isActive && usMapStyles.active,
+        isHovered && usMapStyles.hovered,
         levelClass,
       )}
       onClick={() => {
         navigate(feature.properties.stateInfo.link)
       }}
+      onMouseEnter={onMouseEnter}
     />
   )
 }
@@ -254,6 +263,7 @@ const MapLegend = ({ metric }) => {
 
 const Map = ({ metric }) => {
   const [activeState, setActiveState] = useState(false)
+  const [hoveredState, setHoveredState] = useState(false)
   const mapRef = useRef(false)
   const path = useMemo(() => {
     const projection = geoMercator().fitExtent(
@@ -337,6 +347,9 @@ const Map = ({ metric }) => {
               feature={feature}
               path={path}
               metric={metric}
+              onMouseEnter={() => {
+                setHoveredState(feature)
+              }}
             />
           ))}
         </g>
@@ -363,6 +376,21 @@ const Map = ({ metric }) => {
               path={path}
               metric={metric}
             />
+          </g>
+        )}
+        {hoveredState !== false && (
+          <g
+            onMouseLeave={() => {
+              setHoveredState(false)
+            }}
+          >
+            <State
+              feature={hoveredState}
+              path={path}
+              metric={metric}
+              isHovered
+            />
+            <Label feature={hoveredState} path={path} metric={metric} />
           </g>
         )}
       </svg>

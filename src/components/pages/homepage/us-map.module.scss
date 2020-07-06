@@ -92,7 +92,8 @@ $color-levels-text: (
   stroke: $color-plum-700;
   stroke-width: 3px;
   cursor: pointer;
-  &.active {
+  &.active,
+  &.hovered {
     stroke: black;
     stroke-width: 5px;
     z-index: 100;
