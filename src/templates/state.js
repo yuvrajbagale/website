@@ -95,7 +95,6 @@ export const query = graphql`
       onVentilatorCumulative
       death
       totalTestResults
-      dateModified
       dataQualityGrade
     }
     allCovidStateDaily(

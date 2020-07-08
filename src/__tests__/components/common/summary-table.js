@@ -19,7 +19,7 @@ const tableData = {
   state: 'AL',
   score: 3,
   grade: 'B',
-  dateModified: '2020-04-17T00:00:00Z',
+  lastUpdateEt: '2020-04-17T00:00:00Z',
   positive: 4572,
   negative: 33318,
   pending: null,

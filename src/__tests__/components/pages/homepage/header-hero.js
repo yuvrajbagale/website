@@ -736,7 +736,7 @@ beforeEach(() => {
     allCovidUs: {
       nodes: [
         {
-          posNeg: 5795728,
+          totalTestResults: 5795728,
         },
       ],
     },

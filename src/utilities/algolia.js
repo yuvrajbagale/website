@@ -16,7 +16,7 @@ const stateQuery = `{
     edges {
       node {
         state
-        dateModified(formatString: "MMMM D, YYYY")
+        lastUpdateEt(formatString: "MMMM D, YYYY")
       }
     }
   }
@@ -78,11 +78,11 @@ const pagesQuery = `{
  * @param {*} data State data returned from queries.
  */
 function transformStates(data) {
-  // Map of { stateId: dateModified } to add to transformed result.
+  // Map of { stateId: lastUpdateEt } to add to transformed result.
   const stateModifiedDates = data.states.edges.reduce(
-    (acc, { node: { state, dateModified } }) => ({
+    (acc, { node: { state, lastUpdateEt } }) => ({
       ...acc,
-      [state]: dateModified,
+      [state]: lastUpdateEt,
     }),
     {},
   )
