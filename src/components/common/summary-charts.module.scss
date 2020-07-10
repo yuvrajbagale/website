@@ -99,3 +99,27 @@
     fill: $color-slate-300;
   }
 }
+
+.tpp-component {
+  max-width: 800px;
+}
+.tpp-number {
+  color: $color-plum-500;
+}
+
+.tpp-dot-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: spacer(8) 0;
+}
+.tpp-dot {
+  width: spacer(8);
+  height: spacer(8);
+  margin: spacer(4);
+  border-radius: spacer(4);
+  background-color: $color-plum-200;
+  &.active {
+    background-color: red;
+  }
+}

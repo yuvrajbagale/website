@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
+import { useStaticQuery, graphql, Link } from 'gatsby'
 import {
   Disclosure,
   DisclosureButton,
@@ -218,6 +218,7 @@ export default ({ name = 'National', history, usHistory, annotations }) => {
   return (
     <>
       <h2>{name} overview</h2>
+      <TPPComponent percentPositive={0.01} />
       <div className={styles.infoLine}>
         <div className={styles.toggleContainer}>
           {usHistory && (
@@ -413,3 +414,26 @@ const LegendComponent = ({ name }) => (
     {name || 'National'} 7-day average
   </div>
 )
+
+const TPPComponent = ({ percentPositive }) => {
+  const tpp = Math.floor(1 / percentPositive + 0.5)
+  const a = new Array(tpp).fill(false)
+  a[tpp - 1] = true
+  return (
+    <div className={styles.tppComponent}>
+      <h3>
+        Tests per positive: <span className={styles.tppNumber}>{tpp}</span>
+      </h3>
+      <div className={styles.tppDotContainer}>
+        {a.map(val => (
+          <div className={`${styles.tppDot} ${val ? styles.active : ''}`} />
+        ))}
+      </div>
+      <p>
+        Tests per positive is a key metric in determining reopening conditions.
+        See our <Link to="/blog/the-other-covid-19-metric">blog post</Link> for
+        more info.
+      </p>
+    </div>
+  )
+}
