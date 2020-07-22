@@ -22,9 +22,13 @@ export default ({ linkToAnchor = false }) => {
         {data.allCovidStateInfo.nodes.map(({ state, name }) => (
           <li>
             {linkToAnchor ? (
-              <a href={`#state-${state.toLowerCase()}`}>{state}</a>
+              <a title={name} href={`#state-${state.toLowerCase()}`}>
+                {state}
+              </a>
             ) : (
-              <Link to={`/data/state/${slug(name)}`}>{state}</Link>
+              <Link title={name} to={`/data/state/${slug(name)}`}>
+                {state}
+              </Link>
             )}
           </li>
         ))}
