@@ -6,8 +6,8 @@ import ContentfulContent from '~components/common/contentful-content'
 import MarkdownContent from '~components/common/markdown-content'
 import Layout from '~components/layout'
 import StateList from '~components/pages/data/state-list'
-import StatesNoScriptNav from '~components/pages/data/state-nav-no-script'
-import StatesNav from '~components/common/state-nav'
+import StateNavigation from '~components/pages/data/state-navigation'
+import { Row, Col } from '~components/common/grid'
 import SummaryTable from '~components/common/summary-table'
 import { SyncInfobox } from '~components/common/infobox'
 
@@ -26,12 +26,20 @@ export default ({ data }) => {
       }}
       path="/data"
     >
-      <ContentfulContent
-        content={data.dataPreamble.content.childMarkdownRemark.html}
-        id={data.dataPreamble.contentful_id}
-      />
-      <SyncInfobox />
-      <SummaryTable data={data.covidUs} usData showFootnote />
+      <Row>
+        <Col width={[4, 4, 9]}>
+          <ContentfulContent
+            content={data.dataPreamble.content.childMarkdownRemark.html}
+            id={data.dataPreamble.contentful_id}
+          />
+          <SyncInfobox />
+          <SummaryTable data={data.covidUs} usData showFootnote />
+        </Col>
+        <Col width={[4, 2, 3]}>
+          <StateNavigation linkToAnchor />
+        </Col>
+      </Row>
+
       <SummaryCharts
         history={data.allCovidUsDaily.nodes}
         annotations={data.allContentfulEvent}
@@ -44,9 +52,6 @@ export default ({ data }) => {
           />
         </DetailText>
       </Container>
-      <StatesNav title="Totals by state" stateList={stateNavList} />
-
-      <StatesNoScriptNav stateList={data.allCovidStateInfo.nodes} />
       <StateList
         states={data.allCovidStateInfo.nodes}
         stateData={data.allCovidState.nodes}

@@ -2,10 +2,6 @@
   border-radius: 4px;
   background-color: $color-plum-100;
   @include padding(16, bottom);
-  @media (min-width: $viewport-lg) {
-    @include margin(24, left);
-    min-width: 13rem;
-  }
 }
 
 .header {

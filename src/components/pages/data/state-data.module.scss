@@ -7,11 +7,6 @@
 
   h3 {
     margin-bottom: spacer(16);
-    @media (min-width: $viewport-md) {
-      margin-top: toRem(-50);
-      padding-top: toRem(50);
-      display: inline-block;
-    }
   }
 
   @media (min-width: $viewport-md) {

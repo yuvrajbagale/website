@@ -10,3 +10,10 @@
     }
   }
 }
+
+.container {
+  @media (min-width: $viewport-lg) {
+    min-width: 13rem;
+    @include margin(24, left);
+  }
+}

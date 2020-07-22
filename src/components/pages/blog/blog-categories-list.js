@@ -24,7 +24,7 @@ export default () => {
   )
 
   return (
-    <div>
+    <div className={blogCategoriesListStyles.container}>
       <NavigationPane title="Posts by Category">
         <ul
           role="navigation"

@@ -8,6 +8,8 @@ import StateLinks from '~components/pages/state/state-links'
 import StateNotes from '~components/pages/state/state-notes'
 import SummaryCharts from '~components/common/summary-charts'
 import SummaryTable from '~components/common/summary-table'
+import StateNavigation from '~components/pages/data/state-navigation'
+import { Row, Col } from '~components/common/grid'
 import { SyncInfobox } from '~components/common/infobox'
 
 const StatePage = ({ pageContext, data, path }) => {
@@ -21,16 +23,24 @@ const StatePage = ({ pageContext, data, path }) => {
   } = data
   return (
     <Layout title={state.name} returnLink="/data" path={path}>
-      <StateLinks
-        twitter={state.twitter}
-        covid19Site={state.covid19Site}
-        covid19SiteSecondary={state.covid19SiteSecondary}
-        stateName={state.name}
-        fathomGoal="DNRI0GQP"
-      />
-      <StateGrade letterGrade={covidState.dataQualityGrade} />
-      {state.notes && <StateNotes notes={state.notes} />}
-      <SyncInfobox />
+      <Row>
+        <Col width={[4, 4, 9]}>
+          <StateLinks
+            twitter={state.twitter}
+            covid19Site={state.covid19Site}
+            covid19SiteSecondary={state.covid19SiteSecondary}
+            stateName={state.name}
+            fathomGoal="DNRI0GQP"
+          />
+          <StateGrade letterGrade={covidState.dataQualityGrade} />
+          {state.notes && <StateNotes notes={state.notes} />}
+          <SyncInfobox />
+        </Col>
+        <Col width={[4, 2, 3]}>
+          <StateNavigation />
+        </Col>
+      </Row>
+
       <SummaryTable data={covidState} lastUpdated={covidState.lastUpdateEt} />
       <SummaryCharts
         name={state.name}
