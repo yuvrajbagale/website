@@ -1,0 +1,31 @@
+.container {
+  border-radius: 4px;
+  background-color: $color-plum-100;
+  @include padding(16, bottom);
+  @media (min-width: $viewport-lg) {
+    @include margin(24, left);
+    min-width: 13rem;
+  }
+}
+
+.header {
+  h3 {
+    @include type-size(100);
+    margin: 0;
+    color: $color-plum-700;
+    line-height: 1.6;
+  }
+}
+
+.header,
+.content {
+  @include padding(16);
+}
+
+.content {
+  border-top: 1px solid $color-plum-300;
+  @include type-size(100);
+  a {
+    color: $color-plum-700;
+  }
+}
