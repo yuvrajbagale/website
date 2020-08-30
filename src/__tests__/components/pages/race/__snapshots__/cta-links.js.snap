@@ -31,7 +31,7 @@ exports[`Components : Race : CTA Links renders correctly 1`] = `
     </span>
   </a>
   <a
-    className="cta centered "
+    className="cta centered"
     href="/race/about"
   >
     Learn more about the tracker
