@@ -28,6 +28,7 @@ export default ({ data }) => {
       returnLinkTitle="Racial Data Tracker"
       path="/race/social-cards"
       centered
+      banner="Copy About Swapping % Reported With % Unreported"
     >
       <div
         dangerouslySetInnerHTML={{
