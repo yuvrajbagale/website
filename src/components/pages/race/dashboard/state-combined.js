@@ -44,7 +44,7 @@ export default ({ state }) => {
           className={stateStyle.totals}
         />
         <div className={stateStyle.note}>
-          <HeaderSorter stateName={state.name} stateReports="race/ethnicity" />
+          <HeaderSorter stateReports="race/ethnicity" />
         </div>
       </div>
       <TableTitle
