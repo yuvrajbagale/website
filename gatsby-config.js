@@ -236,7 +236,6 @@ const gatsbyConfig = {
           : 'cdn.contentful.com',
       },
     },
-
     {
       resolve: 'gatsby-transformer-covid-census',
       options: {
@@ -256,7 +255,6 @@ const gatsbyConfig = {
           'inIcuCumulative',
           'inIcuCurrently',
           'negativeIncrease',
-          'negativeRegularScore',
           'onVentilatorCumulative',
           'onVentilatorCurrently',
           'positiveCasesViral',

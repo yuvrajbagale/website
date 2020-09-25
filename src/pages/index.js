@@ -20,7 +20,6 @@ const Homepage = () => (
     <Header siteTitle="The COVID Tracking Project" noMargin />
     <SkipNavContent />
     <HeaderHero />
-    <h1 className="a11y-only">The COVID Tracking Project</h1>
 
     <main id="main">
       <Container>
