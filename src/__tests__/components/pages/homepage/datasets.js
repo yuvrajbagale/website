@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { useStaticQuery } from 'gatsby'
-import Datasets from '~components/pages/homepage/datasets'
+import Datasets from '~components/pages/homepage/where-used'
 
 beforeEach(() => {
   useStaticQuery.mockImplementation(() => ({

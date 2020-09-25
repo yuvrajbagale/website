@@ -400,7 +400,7 @@ const Map = ({ metric }) => {
 }
 
 export default () => {
-  const [metric, setMetric] = useState('sevenDayPositive')
+  const [metric] = useState('sevenDayPositive')
   const data = useStaticQuery(graphql`
     {
       allCovidStateInfo {
@@ -493,28 +493,6 @@ export default () => {
       <a href="#skip-map" className={usMapStyles.skipMap}>
         Skip map &amp; list of states
       </a>
-      <div className={usMapStyles.toggle}>
-        <button
-          type="button"
-          data-active={metric === 'sevenDayPositive' ? true : undefined}
-          onClick={event => {
-            event.preventDefault()
-            setMetric('sevenDayPositive')
-          }}
-        >
-          Cases
-        </button>
-        <button
-          type="button"
-          data-active={metric === 'percentPositive' ? true : undefined}
-          onClick={event => {
-            event.preventDefault()
-            setMetric('percentPositive')
-          }}
-        >
-          Percent positive
-        </button>
-      </div>
 
       <h2 className={usMapStyles.mapHeading} aria-live="polite">
         {metrics[metric].title.main}

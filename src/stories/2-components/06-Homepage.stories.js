@@ -5,7 +5,7 @@ import { CtaLink } from '~components/common/landing-page/call-to-action'
 import Press from '~components/pages/homepage/press'
 import LargeDataset from '~components/pages/homepage/large-dataset'
 import LargeProject from '~components/pages/homepage/large-project'
-import Datasets from '~components/pages/homepage/datasets'
+import Datasets from '~components/pages/homepage/where-used'
 import Paragraph from '~components/common/landing-page/paragraph'
 import LatestTotals from '~components/pages/homepage/latest-totals'
 

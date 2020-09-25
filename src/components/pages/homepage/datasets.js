@@ -1,97 +1,99 @@
 import React from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
+import { graphql, useStaticQuery, Link } from 'gatsby'
 import Img from 'gatsby-image'
-import Feature from '~components/common/landing-page/feature'
+import Container from '~components/common/container'
+import { Row, Col } from '~components/common/grid'
+import datasetsStyle from './datasets.module.scss'
 
-const HomepageDatasets = () => {
+const Datasets = () => {
   const data = useStaticQuery(graphql`
     query {
-      whiteHouse: file(relativePath: { regex: "/white-house.png/" }) {
+      core: file(relativePath: { regex: "/dataset-core.png/" }) {
         relativePath
         childImageSharp {
-          fluid(maxWidth: 1200, traceSVG: { color: "#182E4E" }) {
-            ...GatsbyImageSharpFluid_tracedSVG
+          fluid(
+            maxWidth: 900
+            webpQuality: 70
+            traceSVG: { color: "#E2D2CE" }
+          ) {
+            ...GatsbyImageSharpFluid_withWebp_tracedSVG
           }
         }
       }
-      covidExit: file(relativePath: { regex: "/covid-exit-strategy.png/" }) {
+      crdt: file(relativePath: { regex: "/dataset-crdt.png/" }) {
         relativePath
         childImageSharp {
-          fluid(maxWidth: 1200, traceSVG: { color: "#020202" }) {
-            ...GatsbyImageSharpFluid_tracedSVG
+          fluid(
+            maxWidth: 900
+            webpQuality: 70
+            traceSVG: { color: "#E2D2CE" }
+          ) {
+            ...GatsbyImageSharpFluid_withWebp_tracedSVG
           }
         }
       }
-      jhuTracker: file(relativePath: { regex: "/jhu-tracker.png/" }) {
+
+      ltc: file(relativePath: { regex: "/dataset-ltc.png/" }) {
         relativePath
         childImageSharp {
-          fluid(maxWidth: 1200, traceSVG: { color: "#020202" }) {
-            ...GatsbyImageSharpFluid_tracedSVG
+          fluid(
+            maxWidth: 900
+            webpQuality: 70
+            traceSVG: { color: "#E2D2CE" }
+          ) {
+            ...GatsbyImageSharpFluid_withWebp_tracedSVG
           }
         }
       }
     }
   `)
   return (
-    <div>
-      <Feature
-        title="Johns Hopkins"
-        element={
-          <Img
-            fluid={data.jhuTracker.childImageSharp.fluid}
-            alt="Screenshot of a COVID Exit Strategy chart that uses COVID Tracking Project data in its state-by-state comparison of interventions, testing, and outcomes."
-          />
-        }
-        flip
-      >
-        Johns Hopkins relies on our testing data for its{' '}
-        <a
-          href="https://coronavirus.jhu.edu/testing"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-        >
-          COVID-19 Testing Insights Initiative
-        </a>
-        , which brings data and expert analysis together in one place. The
-        initiative is designed to help policymakers and the public understand
-        the trajectory of the pandemic, and make decisions about the path
-        forward.
-      </Feature>
-      <Feature
-        title="The White House"
-        element={
-          <Img
-            fluid={data.whiteHouse.childImageSharp.fluid}
-            alt="Image composite showing COVID Tracking Project data in use on a slide from the White House’s 'Opening Up America Again' testing strategy presentation deck."
-          />
-        }
-      >
-        The White House chose the COVID Tracking Project as the best source to
-        cite for daily US test numbers in its{' '}
-        <a href="https://www.whitehouse.gov/wp-content/uploads/2020/04/Testing-Overview-Final.pdf">
-          &ldquo;Opening Up America Again&rdquo; testing strategy
-        </a>
-        .
-      </Feature>
-      <Feature
-        title="COVID Exit Strategy"
-        element={
-          <Img
-            fluid={data.covidExit.childImageSharp.fluid}
-            alt="Screenshot of a COVID Exit Strategy chart that uses COVID Tracking Project data in its state-by-state comparison of interventions, testing, and outcomes."
-          />
-        }
-        flip
-      >
-        Created by a group of public health and crisis experts,{' '}
-        <a href="https://covidexitstrategy.org">covidexitstrategy.org</a>{' '}
-        identifies critical interventions needed to stop the spread of COVID-19,
-        and urges government decision-makers to apply them. They use our data to
-        power a dashboard comparing each state&#8217;s interventions and testing
-        levels with case counts and deaths over time.
-      </Feature>
-    </div>
+    <Container>
+      <Row className={datasetsStyle.datasets}>
+        <Col width={[4, 4, 4]} paddingRight={[0, 0, 16]}>
+          <Link to="/data">
+            <Img fluid={data.core.childImageSharp.fluid} alt="" aria-hidden />
+          </Link>
+          <h3>
+            <Link to="/data">US and state data</Link>
+          </h3>
+          <p>
+            Every day, our volunteers compile the latest numbers on tests,
+            cases, hospitalizations, and patient outcomes from every US state
+            and territory.
+          </p>
+        </Col>
+        <Col width={[4, 4, 4]}>
+          <Link to="/race">
+            <Img fluid={data.crdt.childImageSharp.fluid} alt="" aria-hidden />
+          </Link>
+          <h3>
+            <Link to="/race">Racial Data Tracker</Link>
+          </h3>
+          <p>
+            COVID-19 isn&apos;t affecting all communities equally. We&apos;ve
+            partnered with the Boston University Center for Antiracist Research
+            to collect the most complete racial data anywhere in the{' '}
+            <Link to="/race">COVID Racial Data Tracker.</Link>
+          </p>
+        </Col>
+        <Col width={[4, 4, 4]} paddingLeft={[0, 0, 16]}>
+          <Link to="/data/longtermcare">
+            <Img fluid={data.ltc.childImageSharp.fluid} alt="" aria-hidden />
+          </Link>
+          <h3>
+            <Link to="/data/longtermcare">Long-term care</Link>
+          </h3>
+          <p>
+            The most comprehensive dataset about COVID-19 in US long-term care
+            facilities. It compiles crucial data about the effects of the
+            pandemic on a population with extraordinary vulnerabilities to the
+            virus due to age, underlying health conditions, or proximity to
+            large outbreaks.
+          </p>
+        </Col>
+      </Row>
+    </Container>
   )
 }
-
-export default HomepageDatasets
+export default Datasets

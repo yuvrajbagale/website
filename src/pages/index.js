@@ -8,10 +8,8 @@ import Container from '~components/common/landing-page/container'
 import HeaderHero from '~components/pages/homepage/header-hero'
 import BlogList from '~components/pages/homepage/blog-list'
 import Datasets from '~components/pages/homepage/datasets'
-import LargeDataset from '~components/pages/homepage/large-dataset'
-import LargeProject from '~components/pages/homepage/large-project'
 import LatestTotals from '~components/pages/homepage/latest-totals'
-import Press from '~components/pages/homepage/press'
+import WhoIsUsing from '~components/pages/homepage/who-is-using-our-data'
 
 const Homepage = () => (
   <>
@@ -22,17 +20,13 @@ const Homepage = () => (
     <HeaderHero />
 
     <main id="main">
+      <Datasets />
       <Container>
         <LatestTotals />
       </Container>
-      <LargeProject />
-      <Container>
-        <LargeDataset />
-        <Datasets />
-      </Container>
       <BlogList />
       <Container>
-        <Press />
+        <WhoIsUsing />
       </Container>
     </main>
     <Footer />
