@@ -50,13 +50,14 @@ const Datasets = () => {
   `)
   return (
     <Container>
+      <h2>Our datasets</h2>
       <Row className={datasetsStyle.datasets}>
         <Col width={[4, 4, 4]} paddingRight={[0, 0, 16]}>
           <Link to="/data">
             <Img fluid={data.core.childImageSharp.fluid} alt="" aria-hidden />
           </Link>
           <h3>
-            <Link to="/data">US and state data</Link>
+            <Link to="/data">Testing and outcomes</Link>
           </h3>
           <p>
             Every day, our volunteers compile the latest numbers on tests,
@@ -70,7 +71,7 @@ const Datasets = () => {
             <Img fluid={data.crdt.childImageSharp.fluid} alt="" aria-hidden />
           </Link>
           <h3>
-            <Link to="/race">Racial Data Tracker</Link>
+            <Link to="/race">Race and ethnicity</Link>
           </h3>
           <p>
             COVID-19 isn&apos;t affecting all communities equally. We&apos;ve

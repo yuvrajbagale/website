@@ -15,6 +15,21 @@
     color: $color-plum-700;
     line-height: 1.6;
   }
+
+  &.always-toggle {
+    .caret {
+      display: block;
+    }
+    .header {
+      cursor: pointer;
+    }
+    .content {
+      display: none;
+      &.opened {
+        display: block;
+      }
+    }
+  }
 }
 
 .header {
@@ -22,7 +37,6 @@
   align-items: center;
   justify-content: space-between;
   @include padding(16, (left, right));
-
   background: transparent;
   border: none;
   width: 100%;

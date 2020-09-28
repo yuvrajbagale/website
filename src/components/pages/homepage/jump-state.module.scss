@@ -1,0 +1,30 @@
+.button {
+  @include remove-button-style();
+  font-weight: bold;
+  .expanded {
+    display: none;
+  }
+  &[aria-expanded='true'] {
+    .collapsed {
+      display: none;
+    }
+    .expanded {
+      display: inline;
+    }
+  }
+}
+
+.list {
+  list-style: none;
+  @include padding(0, left);
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  li {
+    padding: spacer(4) 0;
+    display: inline-flex;
+    width: 50px;
+    justify-content: center;
+  }
+}
