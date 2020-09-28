@@ -17,6 +17,60 @@ const margin = {
 }
 
 const metrics = {
+  casesPer100k: {
+    title: {
+      main: 'Total COVID-19 cases reported by states and territories',
+      subTitle: 'Cases per 100,000 people',
+    },
+    getLimitClass: ({ casesPer100k }) => {
+      if (casesPer100k <= 500) {
+        return 100
+      }
+      if (casesPer100k <= 1500) {
+        return 200
+      }
+      if (casesPer100k <= 3000) {
+        return 700
+      }
+      return 1000
+    },
+    format: ({ casesPer100k }) => Math.round(casesPer100k).toLocaleString(),
+    reverseMobileOrder: true,
+    levels: [
+      {
+        type: 100,
+        className: [usMapStyles.levelBackground100, usMapStyles.levelText100],
+        title: 'Below 500 cases',
+        find: states => states.filter(({ casesPer100k }) => casesPer100k < 500),
+      },
+      {
+        type: 200,
+        title: '500-1,500 cases',
+        className: [usMapStyles.levelBackground200, usMapStyles.levelText200],
+        find: states =>
+          states.filter(
+            ({ casesPer100k }) => casesPer100k >= 500 && casesPer100k < 1500,
+          ),
+      },
+      {
+        type: 700,
+        title: '1,500-3,000 cases',
+        className: [usMapStyles.levelBackground700, usMapStyles.levelText700],
+        find: states =>
+          states.filter(
+            ({ casesPer100k }) => casesPer100k >= 1500 && casesPer100k < 3000,
+          ),
+      },
+      {
+        type: 1000,
+        title: 'Over 3,000 cases',
+        className: [usMapStyles.levelBackground1000, usMapStyles.levelText1000],
+        find: states =>
+          states.filter(({ casesPer100k }) => casesPer100k >= 3000),
+      },
+    ],
+  },
+
   sevenDayPositive: {
     title: {
       main: 'New daily COVID-19 cases reported by states and territories',
@@ -70,51 +124,6 @@ const metrics = {
         className: [usMapStyles.levelBackground1000, usMapStyles.levelText1000],
         find: states =>
           states.filter(({ sevenDayPositive }) => sevenDayPositive >= 5000),
-      },
-    ],
-  },
-  percentPositive: {
-    title: {
-      main: 'Percent-positive rate for US states and territories',
-      subTitle:
-        'Percentage of tests that came back positive over the past seven day',
-    },
-    getLimitClass: ({ percentPositive }) => {
-      if (percentPositive < 0.03) {
-        return 100
-      }
-      if (percentPositive < 0.1) {
-        return 500
-      }
-      return 1000
-    },
-    reverseMobileOrder: true,
-    format: ({ percentPositive }) =>
-      percentPositive ? `${Math.round(percentPositive * 1000) / 10}%` : '0%',
-    levels: [
-      {
-        type: 100,
-        className: [usMapStyles.levelBackground100, usMapStyles.levelText100],
-        title: 'Below 3% positive suppression goal',
-        find: states =>
-          states.filter(({ percentPositive }) => percentPositive < 0.03),
-      },
-      {
-        type: 500,
-        title: '3% - 10% positive mitigation goal',
-        className: [usMapStyles.levelBackground500, usMapStyles.levelText500],
-        find: states =>
-          states.filter(
-            ({ percentPositive }) =>
-              percentPositive >= 0.03 && percentPositive < 0.1,
-          ),
-      },
-      {
-        type: 1000,
-        title: 'Over 10% positive',
-        className: [usMapStyles.levelBackground1000, usMapStyles.levelText1000],
-        find: states =>
-          states.filter(({ percentPositive }) => percentPositive > 0.1),
       },
     ],
   },
@@ -400,7 +409,7 @@ const Map = ({ metric }) => {
 }
 
 export default () => {
-  const [metric] = useState('sevenDayPositive')
+  const [metric, setMetric] = useState('casesPer100k')
   const data = useStaticQuery(graphql`
     {
       allCovidStateInfo {
@@ -417,6 +426,9 @@ export default () => {
             negativeIncrease
             childPopulation {
               population
+              positive {
+                per100k
+              }
             }
           }
         }
@@ -429,22 +441,12 @@ export default () => {
           }
         }
       }
-      percentPositiveMessage: contentfulSnippet(
-        slug: { eq: "homepage-map-percent-positive" }
-      ) {
-        contentful_id
-        childContentfulSnippetContentTextNode {
-          childMarkdownRemark {
-            html
-          }
-        }
-      }
     }
   `)
 
   const metricMessages = {
     sevenDayPositive: 'casesMessage',
-    percentPositive: 'percentPositiveMessage',
+    casesPer100k: 'casesMessage',
   }
 
   const states = []
@@ -454,26 +456,15 @@ export default () => {
     )
     const stateInfo = nodes.map(node => {
       node.posNegIncrease = node.positiveIncrease + node.negativeIncrease
-      node.percentPositive = node.positiveIncrease / node.posNegIncrease
+      node.casesPer100k = node.childPopulation.positive.per100k
       return node
     })
 
     states.push({
       ...state,
       sevenDayPositive: Math.round(getAverage(stateInfo, 'positiveIncrease')),
+      casesPer100k: stateInfo.shift().casesPer100k,
 
-      percentPositive:
-        stateInfo.reduce(
-          (positive, posNegState) => posNegState.positiveIncrease + positive,
-          0,
-        ) /
-        stateInfo.reduce(
-          (posNeg, posNegState) =>
-            posNegState.positiveIncrease +
-            posNegState.negativeIncrease +
-            posNeg,
-          0,
-        ),
       link: `/data/state/${slugify(state.name, {
         strict: true,
         lower: true,
@@ -493,6 +484,28 @@ export default () => {
       <a href="#skip-map" className={usMapStyles.skipMap}>
         Skip map &amp; list of states
       </a>
+      <div className={usMapStyles.toggle}>
+        <button
+          type="button"
+          data-active={metric === 'casesPer100k' ? true : undefined}
+          onClick={event => {
+            event.preventDefault()
+            setMetric('casesPer100k')
+          }}
+        >
+          Cases per 100k
+        </button>
+        <button
+          type="button"
+          data-active={metric === 'sevenDayPositive' ? true : undefined}
+          onClick={event => {
+            event.preventDefault()
+            setMetric('sevenDayPositive')
+          }}
+        >
+          New Cases
+        </button>
+      </div>
 
       <h2 className={usMapStyles.mapHeading} aria-live="polite">
         {metrics[metric].title.main}
