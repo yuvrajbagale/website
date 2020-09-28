@@ -50,7 +50,6 @@ const Datasets = () => {
   `)
   return (
     <Container>
-      <h2>Our datasets</h2>
       <Row className={datasetsStyle.datasets}>
         <Col width={[4, 4, 4]} paddingRight={[0, 0, 16]}>
           <Link to="/data">
