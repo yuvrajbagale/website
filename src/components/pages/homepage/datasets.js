@@ -3,6 +3,7 @@ import { graphql, useStaticQuery, Link } from 'gatsby'
 import Img from 'gatsby-image'
 import Container from '~components/common/container'
 import { Row, Col } from '~components/common/grid'
+import JumpState from './jump-state'
 import datasetsStyle from './datasets.module.scss'
 
 const Datasets = () => {
@@ -62,6 +63,7 @@ const Datasets = () => {
             cases, hospitalizations, and patient outcomes from every US state
             and territory.
           </p>
+          <JumpState url={state => `/data/state/${state.childSlug.slug}`} />
         </Col>
         <Col width={[4, 4, 4]}>
           <Link to="/race">
@@ -76,6 +78,9 @@ const Datasets = () => {
             to collect the most complete racial data anywhere in the{' '}
             <Link to="/race">COVID Racial Data Tracker.</Link>
           </p>
+          <JumpState
+            url={state => `/race/dashboard/#state-${state.state.toLowerCase()}`}
+          />
         </Col>
         <Col width={[4, 4, 4]} paddingLeft={[0, 0, 16]}>
           <Link to="/data/longtermcare">
@@ -91,6 +96,9 @@ const Datasets = () => {
             virus due to age, underlying health conditions, or proximity to
             large outbreaks.
           </p>
+          <JumpState
+            url={state => `/data/state/${state.childSlug.slug}/long-term-care`}
+          />
         </Col>
       </Row>
     </Container>
