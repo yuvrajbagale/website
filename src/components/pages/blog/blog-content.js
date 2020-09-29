@@ -7,6 +7,7 @@ import CleanSpacing from '~components/utils/clean-spacing'
 import TableContentBlock from './content-blocks/table-content-block'
 import ImageContentBlock from './content-blocks/image-content-block'
 import TableauChart from '~components/charts/tableau'
+import ScrollyStory from './scrolly-story'
 import blogContentStyles from './blog-content.module.scss'
 
 const BlogContent = ({ content, images }) => {
@@ -22,6 +23,12 @@ const BlogContent = ({ content, images }) => {
       [BLOCKS.EMBEDDED_ENTRY]: node => {
         if (typeof node.data.target.fields === 'undefined') {
           return null
+        }
+        if (
+          node.data.target.sys.contentType.sys.contentful_id ===
+          'scrollyStory'
+        ) {
+          return <ScrollyStory />
         }
         if (
           node.data.target.sys.contentType.sys.contentful_id ===
