@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 /*
  * I'm assuming that the incoming data looks something like this:
@@ -25,8 +25,10 @@ import React from 'react'
 const tempData = {
   stepOne: {
     copy: 'this is the first piece of text',
-    image: '~images/experiments/pooled_testing_00.jpg',
-    altText: 'alt for first image',
+    image: {
+      src: '~images/experiments/pooled_testing_00.jpg',
+      altText: 'alt for first image',
+    },
   },
   stepTwo: {
     copy: 'this is the second piece of text',
@@ -41,16 +43,21 @@ const tempData = {
 }
 
 const ScrollyStory = ({ scrollyStoryProps = tempData }) => {
-  const container = document.getElementById('container')
+  const [currentImage, setCurrentImage] = useState(
+    scrollyStoryProps.stepOne.image,
+  )
+
+  // const [scrollPosition, setScrollPosition] = useState(window.pageYOffset)
 
   return (
     <div className="scrollyContainer">
+      <img
+        className="scrollyImage"
+        src={currentImage.src}
+        alt={currentImage.altText}
+      />
       {Object.keys(scrollyStoryProps).map(key => (
-        <img
-          className="scrollyImage"
-          src={scrollyStoryProps[key].image}
-          alt={scrollyStoryProps[key].altText}
-        />
+        <p>{scrollyStoryProps[key].copy}</p>
       ))}
     </div>
   )
