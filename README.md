@@ -1,4 +1,5 @@
 # COVID Tracking Project
+#logr-An Amazing Project
 
 The COVID Tracking Project collects information from 50 U.S. states, the District of Columbia, and 5 other U.S. territories to provide the most comprehensive testing data we can collect for the novel coronavirus, SARS-CoV-2.
 
